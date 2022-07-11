@@ -17,7 +17,6 @@ public class EnemyNormal : Enemy
     private Rigidbody rigidBody;
 
     private Vector3 screenPoint; // 스크린 좌표
-    private bool isIn = false; // 화면에 들어왔는지
     private float movementTimer = 0f; // 이동 타이머
     private Quaternion direction;
 
@@ -45,24 +44,19 @@ public class EnemyNormal : Enemy
             screenPoint.x > 0 && screenPoint.x < 1 &&
             screenPoint.y > 0 && screenPoint.y < 1) // 시야에 들어오면
         {
-            //if(isIn == false) // 목록에 없다면
-            //{
-                if(Vector3.Distance(transform.position, GameManager.Instance._Player.transform.position) <= 1000.0f) // 1000 거리 안쪽에 있다면
+            if (Vector3.Distance(transform.position, GameManager.Instance._Player.transform.position) <= 1000.0f) // 1000 거리 안쪽에 있다면
+            {
+                //Debug.Log(GameManager.Instance.GetTargetList().Count);
+                if (GameManager.Instance.GetTargetList().Contains(this.gameObject) == false)
                 {
-                    //Debug.Log(GameManager.Instance.GetTargetList().Count);
-                    if(GameManager.Instance.GetTargetList().Contains(this.gameObject) == false)
-                    {
-                        GameManager.Instance.AddTargetList(this.gameObject); // 추가
-                    }
-                    //isIn = true;
+                    GameManager.Instance.AddTargetList(this.gameObject); // 추가
                 }
-            //}
+            }
         }
         else // 시야를 벗어나면
         {
             //Debug.Log("Out");
             GameManager.Instance.RemoveTargetList(this.gameObject); // 목록에서 제거
-            isIn = false;
         }
     }
     // ==================================================== 이동 함수 ================================================= //
