@@ -12,7 +12,7 @@ public class EnemyNormal : Enemy
         attack,
     }
     private float HP = 100.0f;
-    private float speed = 20f; // 속도
+    private float speed = 30f; // 속도
 
     private Rigidbody rigidBody;
 
@@ -65,7 +65,7 @@ public class EnemyNormal : Enemy
     // ==================================================== 이동 함수 ================================================= //
     public override void Move()
     {
-        if (Vector3.Distance(GameManager.Instance._Player.transform.position, transform.position) <= 500.0f) // 사거리 이내라면 추격 시작
+        if (Vector3.Distance(GameManager.Instance._Player.transform.position, transform.position) <= 200.0f)  // 사거리 이내라면 추격 시작
         {
             rigidBody.velocity = transform.forward * speed;
             direction = Quaternion.LookRotation(GameManager.Instance._Player.transform.position - transform.position);
@@ -151,13 +151,14 @@ public class EnemyNormal : Enemy
         GameManager.Instance.Target.Remove(this.gameObject); // 목록에서 제거
         GameManager.Instance._Player.ResetTargetIndex(); // 플레이어의 타겟 인덱스 0으로 초기화
         Instantiate(GameManager.Instance._Effect.GetExplosion(), transform.position, transform.rotation);
+        GameManager.Instance.SetScore(100);
         Destroy(this.gameObject);
         //rigidBody.useGravity = true;
         //rigidBody.drag = 0;
     }
     private void OnCollisionEnter(Collision other)
     {
-        if(other.gameObject.tag == "Bullet") // 총알의 경우
+        if (other.gameObject.tag == "Bullet") // 총알의 경우
         {
             DecreaseHP(); // 체력 감소
         }
@@ -172,7 +173,8 @@ public class EnemyNormal : Enemy
     }
     public void DecreaseHP() // 체력 감소
     {
-        HP -= 1f;
+        HP -= 5f;
+        Debug.Log(HP);
     }
     private void Dead() // 사망 함수
     {

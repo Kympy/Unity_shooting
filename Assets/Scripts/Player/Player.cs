@@ -158,7 +158,7 @@ public class Player : MonoBehaviour
     public void ShootMissile()
     {
         // ============================ 미사일 생성 & 미사일 타이머 초기화 =========================== //
-        if (missileTimer > 6f)
+        if (missileTimer > 3f)
         {
             GameObject obj = Instantiate(missile, FirePoint.transform.position, FirePoint.transform.rotation);
             obj.GetComponent<Missile>().SetTarget(targetIndex);
@@ -238,6 +238,7 @@ public class Player : MonoBehaviour
         if(HP <= 0f && isDead == false)
         {
             Instantiate(GameManager.Instance._Effect.GetExplosion(), transform.position, transform.rotation);
+            GameManager.Instance._UI.GameOver();
             Debug.Log("GameOver");
             isDead = true; // 무한 루프 방지
         }
@@ -247,6 +248,7 @@ public class Player : MonoBehaviour
         if(collision.gameObject.tag == "Terrain") // 지형 충돌
         {
             Instantiate(GameManager.Instance._Effect.GetExplosion(), transform.position, transform.rotation);
+            GameManager.Instance._UI.GameOver();
             Debug.Log("GameOver");
         }
         else if(collision.gameObject.tag == "Enemy")

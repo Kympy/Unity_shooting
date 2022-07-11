@@ -8,10 +8,13 @@ public class GameManager : Singleton<GameManager>
     public InputManager _Input;
     public UIManager _UI;
     public EffectManager _Effect;
+    public LoadingSceneManager _Loading;
     public BulletPool _BulletPool;
 
     public List<GameObject> Target; // 유도가 가능한 타겟 목록
     public Camera mainCamera; // 메인 카메라
+    private int score = 0; // 게임 점수
+    private bool GameOver = false;
 
     private void Awake()
     {
@@ -19,6 +22,7 @@ public class GameManager : Singleton<GameManager>
         _Input = GameObject.FindObjectOfType<InputManager>();
         _UI = GameObject.FindObjectOfType<UIManager>();
         _Effect = GameObject.FindObjectOfType<EffectManager>();
+        _Loading = GameObject.FindObjectOfType<LoadingSceneManager>();
         _BulletPool = GameObject.FindObjectOfType<BulletPool>();
     }
     private void Start()
@@ -32,7 +36,24 @@ public class GameManager : Singleton<GameManager>
         _Input.OnUpdate();
         _UI.TextSpeed();
         _UI.TextHeight();
+        _UI.TextScore();
         _UI.UpdateHPbar();
         //Debug.Log("Target List Count : " + Target.Count);
+    }
+    public int GetScore()
+    {
+        return score;
+    }
+    public void SetScore(int plus)
+    {
+        score += plus;
+    }
+    public bool GetGameOver()
+    {
+        return GameOver;
+    }
+    public void SetGameOver()
+    {
+        GameOver = true;
     }
 }

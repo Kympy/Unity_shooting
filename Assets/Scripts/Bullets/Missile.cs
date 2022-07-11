@@ -32,13 +32,13 @@ public class Missile : MonoBehaviour
         {
             if (target == null) // 타겟이 없으면
             {
-                transform.Translate(Vector3.forward * speed * Time.deltaTime);
+                transform.Translate(Vector3.forward * speed / 2 * Time.deltaTime);
             }
             else
             {
                 rigidBody.velocity = transform.forward * speed;
                 Quaternion q = Quaternion.LookRotation(target.transform.position - transform.position);
-                transform.rotation = Quaternion.Slerp(transform.rotation, q, Time.deltaTime * 2f);
+                transform.rotation = Quaternion.Slerp(transform.rotation, q, Time.deltaTime * 3f);
                 //transform.position = Vector3.LerpUnclamped(transform.position, target.transform.position, speed * Time.deltaTime / distance);
                 //direction = (target.transform.position - transform.position).normalized;
                 //transform.position += direction * speed * Time.deltaTime;

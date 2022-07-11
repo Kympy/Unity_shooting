@@ -44,6 +44,10 @@ public class InputManager : MonoBehaviour
         {
             GameManager.Instance._Player.ShootKeyUp();
         }
+        if(Input.GetKeyDown(KeyCode.Space) && GameManager.Instance.GetGameOver())
+        {
+            GameManager.Instance._Loading.LoadSceneNumber(1);
+        }
         if(Input.GetKeyUp(KeyCode.W))
         {
             GameManager.Instance._Player.WKeyUp();
