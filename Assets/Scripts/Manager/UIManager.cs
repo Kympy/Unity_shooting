@@ -10,11 +10,13 @@ public class UIManager : MonoBehaviour
     private TextMeshProUGUI speed;
     private TextMeshProUGUI height;
     private Color basicColor;
+    private Slider HPbar;
 
     private GameObject GunCrossHair;
     private GameObject MissileCrossHair;
     private Vector3 originPos;
     private Color basicColor_Aim;
+    private float currentHP;
 
     private void Awake()
     {
@@ -30,6 +32,9 @@ public class UIManager : MonoBehaviour
         MissileCrossHair.SetActive(false);
         originPos = MissileCrossHair.transform.position;
         basicColor_Aim = MissileCrossHair.GetComponent<Image>().color;
+        HPbar = FindObjectOfType<Slider>();
+        HPbar.maxValue = 100f;
+        currentHP = GameManager.Instance._Player.GetHP();
     }
     // ============================== 공격 모드 텍스트 UI ============================ //
     public void TextAttackMode()
@@ -50,7 +55,7 @@ public class UIManager : MonoBehaviour
     public void TextSpeed() // 속도 표시
     {
         speed.text = "SPEED : " + Mathf.Round((GameManager.Instance._Player.GetVelocity() * 50) * 10 / 10) + " km/s";
-        Debug.Log(GameManager.Instance._Player.GetVelocity() * 50);
+        //Debug.Log(GameManager.Instance._Player.GetVelocity() * 50);
     }
     public void TextHeight() // 고도 표시
     {
@@ -72,19 +77,24 @@ public class UIManager : MonoBehaviour
     }
     public void FocusTarget(int index) // 에임을 타겟에게 자동조준
     {
-        if (GameManager.Instance.Target.Count > 0)
+        if (GameManager.Instance.Target.Count > 0) // 조준할 적이 하나라도 있으면
         {
-            MissileCrossHair.transform.position = Camera.main.WorldToScreenPoint(GameManager.Instance.Target[index].transform.position);
-            MissileCrossHair.GetComponent<Image>().color = Color.red;
+            MissileCrossHair.transform.position = Camera.main.WorldToScreenPoint(GameManager.Instance.Target[index].transform.position); // 타겟의 좌표를 스크린좌표로 변환
+            MissileCrossHair.GetComponent<Image>().color = Color.red; // 빨간색으로 UI 변경
         }
         else
         {
-            FocusOut();
+            FocusOut(); // 조준할 게 없으면 조준 해제
         }
     }
-    public void FocusOut()
+    public void FocusOut() // 조준 해제
     {
         MissileCrossHair.transform.position = originPos;
         MissileCrossHair.GetComponent<Image>().color = basicColor_Aim;
+    }
+    public void UpdateHPbar() // 체력바 업데이트
+    {
+        currentHP = GameManager.Instance._Player.GetHP();
+        HPbar.value = Mathf.Lerp(HPbar.value, currentHP, Time.deltaTime * 10f);
     }
 }

@@ -21,14 +21,14 @@ public class Missile : MonoBehaviour
     private void Start()
     {
         distance = Vector3.Distance(transform.position, target.transform.position);
-        Invoke("DestroyMissile", 5f); // 5초 후 자동 파괴
+        Invoke("DestroyMissile", 6f); // 5초 후 자동 파괴
     }
     private void FixedUpdate()
     {
         timer += Time.deltaTime;
 
         // ============================ 1.5초 후 적 유도 시작 =========================== //
-        if (timer > 1f)
+        if (timer > 0.5f)
         {
             if (target == null) // 타겟이 없으면
             {
@@ -38,12 +38,11 @@ public class Missile : MonoBehaviour
             {
                 rigidBody.velocity = transform.forward * speed;
                 Quaternion q = Quaternion.LookRotation(target.transform.position - transform.position);
-                transform.rotation = Quaternion.Slerp(transform.rotation, q, Time.deltaTime * 1f);
+                transform.rotation = Quaternion.Slerp(transform.rotation, q, Time.deltaTime * 2f);
                 //transform.position = Vector3.LerpUnclamped(transform.position, target.transform.position, speed * Time.deltaTime / distance);
                 //direction = (target.transform.position - transform.position).normalized;
                 //transform.position += direction * speed * Time.deltaTime;
                 //transform.forward = direction;
-
             }
         }
         else

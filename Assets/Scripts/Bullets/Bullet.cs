@@ -10,7 +10,7 @@ public class Bullet : MonoBehaviour
     }
     private void FixedUpdate()
     {
-        transform.Translate(Vector3.up * 1000 * Time.deltaTime);
+        transform.Translate(Vector3.up * 800 * Time.deltaTime);
     }
     private void DestroyBullet()
     {

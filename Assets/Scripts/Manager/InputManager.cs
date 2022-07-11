@@ -56,6 +56,10 @@ public class InputManager : MonoBehaviour
         {
             GameManager.Instance._Player.BeforeTargetIndex();
         }
+        if (Input.GetKeyDown(KeyCode.F))
+        {
+            GameManager.Instance._Player.DecreaseHP(10f);
+        }
         else
         {
             return;

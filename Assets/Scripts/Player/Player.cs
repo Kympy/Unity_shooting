@@ -6,7 +6,8 @@ public class Player : MonoBehaviour
 {
     // ========================================= 정보 관련 ========================================= //
 
-    private int life; // =============== 목숨
+    private float HP; // =============== 내구도
+    private bool isDead = false; // 사망 여부(폭발 이펙트 재생을 1번만 하기위해 필요함)
 
     // ========================================= 이동 관련 ========================================= //
 
@@ -22,8 +23,6 @@ public class Player : MonoBehaviour
     private float missileTimer = 5f; // 미사일 발사 간격 타이머
     private GameObject missile;     // 미사일 오브젝트
     private GameObject FirePoint; // 미사일 발사 지점
-    public GameObject _target; // 미사일 유도 대상
-    private bool LockON = false; // 미사일 락온
     private int targetIndex = 0;
 
     // ========================================= 머신건 관련 ========================================= //
@@ -37,26 +36,23 @@ public class Player : MonoBehaviour
     // ========================================= 기타 ========================================= //
 
     private GameObject exhaustOutlet; // 배출구 오브젝트
-    public AudioSource gunShot;
 
     private void Awake()
     {
-        life = 3;
+        HP = 100.0f;
         speed = 2000.0f;
         missile = Resources.Load("Bullet/Missile") as GameObject;
-        gunShot = GetComponent<AudioSource>();
     }
     void Start()
     {
         lastPosition = transform.position;
+        ShootPoint = GameObject.Find("ShootPoint").gameObject;
+        FirePoint = GameObject.Find("FirePoint").gameObject;
         rigidBody = GetComponent<Rigidbody>();
         muzzleFlash = GameObject.FindGameObjectWithTag("Effect").gameObject;
         muzzleFlash.SetActive(false);
         exhaustOutlet = GameObject.FindGameObjectWithTag("Particle").gameObject;
         exhaustOutlet.SetActive(false);
-        _target = GameObject.Find("Cube").gameObject;
-        ShootPoint = GameObject.Find("ShootPoint").gameObject;
-        FirePoint = GameObject.Find("FirePoint").gameObject;
         //GameManager.Instance._Input.KeyAction -= PlayerControl;
         //GameManager.Instance._Input.KeyAction += PlayerControl;
     }
@@ -71,13 +67,14 @@ public class Player : MonoBehaviour
         {
             targetIndex = 0;
         }
-        Debug.Log(targetIndex);
+        //Debug.Log(targetIndex);
         LockTarget();
 
     }
     private void FixedUpdate()
     {
         CalculateVelocity();
+        Dead();
         GunTimer += Time.deltaTime;
         missileTimer += Time.deltaTime;
     }
@@ -138,7 +135,6 @@ public class Player : MonoBehaviour
             muzzleFlash.SetActive(true);
             if (GunTimer > 0.2f)
             {
-                gunShot.Play();
                 Bullet obj = GameManager.Instance._BulletPool.GetBullet();
                 //obj.transform.position = transform.position + Vector3.forward * 5.0f + Vector3.left * 3.0f;
                 obj.transform.position = ShootPoint.transform.position;
@@ -153,6 +149,7 @@ public class Player : MonoBehaviour
                 if(hit.transform.tag == "Enemy")
                 {
                     Debug.Log("## Enemy Damaged");
+                    hit.transform.gameObject.GetComponent<EnemyNormal>().DecreaseHP();
                 }
             }
         }// ============================ 미사일 모드 =========================== //
@@ -161,9 +158,8 @@ public class Player : MonoBehaviour
     public void ShootMissile()
     {
         // ============================ 미사일 생성 & 미사일 타이머 초기화 =========================== //
-        if (missileTimer > 5f)
+        if (missileTimer > 6f)
         {
-            //GameManager.Instance.Target
             GameObject obj = Instantiate(missile, FirePoint.transform.position, FirePoint.transform.rotation);
             obj.GetComponent<Missile>().SetTarget(targetIndex);
             missileTimer = 0f;
@@ -178,7 +174,6 @@ public class Player : MonoBehaviour
     public void ShootKeyUp() // 사격 종료 시 muzzle 이펙트 비활성화
     {
         muzzleFlash.SetActive(false);
-        gunShot.Stop();
     }
     public void WKeyUp() // 전진 키 미 입력 시 배출구 이펙트 비활성화
     {
@@ -210,6 +205,10 @@ public class Player : MonoBehaviour
         }
         else targetIndex = GameManager.Instance.Target.Count - 1;
     }
+    public void ResetTargetIndex()
+    {
+        targetIndex = 0;
+    }
     private void CalculateVelocity()
     {
         velocity = (transform.position - lastPosition).magnitude / Time.deltaTime;
@@ -218,6 +217,44 @@ public class Player : MonoBehaviour
     public float GetVelocity()
     {
         return velocity;
+    }
+    public float GetHP()
+    {
+        return HP;
+    }
+    public void DecreaseHP(float damage) // 체력 감소
+    {
+        if (HP <= 0f) // 체력이 0 이하
+        {
+            HP = 0f; // 0 고정
+        }
+        else // 0 초과면
+        {
+            HP -= damage; // 데미지 만큼 체력 감소
+        }
+    }
+    private void Dead() // 사망 함수
+    {
+        if(HP <= 0f && isDead == false)
+        {
+            Instantiate(GameManager.Instance._Effect.GetExplosion(), transform.position, transform.rotation);
+            Debug.Log("GameOver");
+            isDead = true; // 무한 루프 방지
+        }
+    }
+    private void OnCollisionEnter(Collision collision) // 충돌 시
+    {
+        if(collision.gameObject.tag == "Terrain") // 지형 충돌
+        {
+            Instantiate(GameManager.Instance._Effect.GetExplosion(), transform.position, transform.rotation);
+            Debug.Log("GameOver");
+        }
+        else if(collision.gameObject.tag == "Enemy")
+        {
+            Debug.Log("Enemy Collision");
+            DecreaseHP(10f);
+            Instantiate(GameManager.Instance._Effect.GetExplosion(), transform.position, transform.rotation);
+        }
     }
     /*
     private void FixRotation() // 기울기, 회전 최댓값 고정
@@ -230,5 +267,5 @@ public class Player : MonoBehaviour
         {
             rigidBody.AddForce(Vector3.right * speed * Time.deltaTime);
         }
-    }*/  
+    }*/
 }

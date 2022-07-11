@@ -15,7 +15,7 @@ public class BulletPool : MonoBehaviour
     {
         //Debug.Log("## BulletPool Start");
         if (_bulletPrefab == null) Debug.Log("NULL OBJECT");
-        InitQueue(10);
+        InitQueue(20);
     }
     private void InitQueue(int QueueSize)
     {

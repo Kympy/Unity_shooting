@@ -8,7 +8,6 @@ public class GameManager : Singleton<GameManager>
     public InputManager _Input;
     public UIManager _UI;
     public EffectManager _Effect;
-    public AudioManager _Audio;
     public BulletPool _BulletPool;
 
     public List<GameObject> Target; // 유도가 가능한 타겟 목록
@@ -20,7 +19,6 @@ public class GameManager : Singleton<GameManager>
         _Input = GameObject.FindObjectOfType<InputManager>();
         _UI = GameObject.FindObjectOfType<UIManager>();
         _Effect = GameObject.FindObjectOfType<EffectManager>();
-        _Audio = GameObject.FindObjectOfType<AudioManager>();
         _BulletPool = GameObject.FindObjectOfType<BulletPool>();
     }
     private void Start()
@@ -34,6 +32,7 @@ public class GameManager : Singleton<GameManager>
         _Input.OnUpdate();
         _UI.TextSpeed();
         _UI.TextHeight();
+        _UI.UpdateHPbar();
         //Debug.Log("Target List Count : " + Target.Count);
     }
 }
