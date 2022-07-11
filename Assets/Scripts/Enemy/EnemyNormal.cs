@@ -40,22 +40,23 @@ public class EnemyNormal : Enemy
     public void CheckTargetInCamera()
     {
         // ========================= 카메라 시야에 들어오면 타겟 후보 목록에 올림 ===================== //
-        screenPoint =Camera.main.WorldToViewportPoint(transform.position);
+        screenPoint = Camera.main.WorldToViewportPoint(transform.position);
         if (screenPoint.z > 0 &&
             screenPoint.x > 0 && screenPoint.x < 1 &&
             screenPoint.y > 0 && screenPoint.y < 1) // 시야에 들어오면
         {
-            if(isIn == false) // 목록에 없다면
-            {
+            //if(isIn == false) // 목록에 없다면
+            //{
                 if(Vector3.Distance(transform.position, GameManager.Instance._Player.transform.position) <= 1000.0f) // 1000 거리 안쪽에 있다면
                 {
-                    Debug.Log(GameManager.Instance.GetTargetList().Count);
-                    GameManager.Instance.AddTargetList(this.gameObject); // 추가
-
-
-                    isIn = true;
+                    //Debug.Log(GameManager.Instance.GetTargetList().Count);
+                    if(GameManager.Instance.GetTargetList().Contains(this.gameObject) == false)
+                    {
+                        GameManager.Instance.AddTargetList(this.gameObject); // 추가
+                    }
+                    //isIn = true;
                 }
-            }
+            //}
         }
         else // 시야를 벗어나면
         {

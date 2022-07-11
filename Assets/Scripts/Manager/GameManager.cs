@@ -11,10 +11,9 @@ public class GameManager : Singleton<GameManager>
     public LoadingSceneManager _Loading;
     public BulletPool _BulletPool;
 
-    private List<GameObject> Target = new List<GameObject>(); // 유도가 가능한 타겟 목록
-    //public Camera mainCamera; // 메인 카메라
+    public List<GameObject> Target = new List<GameObject>(); // 유도가 가능한 타겟 목록
     private int score = 0; // 게임 점수
-    private bool GameOver = false;
+    private bool GameOver = false; // 게임 오버
 
     private void Awake()
     {
@@ -30,12 +29,6 @@ public class GameManager : Singleton<GameManager>
         _Effect = GetComponent<EffectManager>();
         //_Loading = GetComponent<LoadingSceneManager>();
         _BulletPool = GetComponent<BulletPool>();
-    }
-    private void Start()
-    {
-        //mainCamera = GameObject.Find("Main Camera").GetComponent<Camera>();
-        //_BulletPool.Init();
-        //_Effect.Init();
     }
     private void Update()
     {
