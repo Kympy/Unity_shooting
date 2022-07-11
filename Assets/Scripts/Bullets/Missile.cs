@@ -67,7 +67,7 @@ public class Missile : MonoBehaviour
             target = GameManager.Instance.GetTargetList()[index].gameObject;
         }
     }
-    private void OnTriggerEnter(Collider other) // 충돌 시 파괴
+    private void OnCollisionEnter(Collision other) // 충돌 시 파괴
     {
         if(other.gameObject.tag != "Player" && other.gameObject.tag != "Missile")
         {
