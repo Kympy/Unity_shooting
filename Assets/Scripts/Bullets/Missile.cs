@@ -58,13 +58,13 @@ public class Missile : MonoBehaviour
     }
     public void SetTarget(int index)
     {
-        if(index > GameManager.Instance.Target.Count - 1)
+        if(index > GameManager.Instance.GetTargetList().Count - 1)
         {
             target = null;
         }
         else
         {
-            target = GameManager.Instance.Target[index].gameObject;
+            target = GameManager.Instance.GetTargetList()[index].gameObject;
         }
     }
     private void OnTriggerEnter(Collider other) // 충돌 시 파괴

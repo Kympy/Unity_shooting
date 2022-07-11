@@ -86,15 +86,15 @@ public class UIManager : MonoBehaviour
     }
     public void FocusTarget(int index) // 에임을 타겟에게 자동조준
     {
-        if (GameManager.Instance.Target.Count > 0) // 조준할 적이 하나라도 있으면
+        if (GameManager.Instance.GetTargetList().Count > 0) // 조준할 적이 하나라도 있으면
         {
-            if(GameManager.Instance.Target[index] == null) // 타겟이 null 이면
+            if(GameManager.Instance.GetTargetList()[index] == null) // 타겟이 null 이면
             {
                 FocusOut(); // 조준 해제
             }
             else
             {
-                MissileCrossHair.transform.position = Camera.main.WorldToScreenPoint(GameManager.Instance.Target[index].transform.position); // 타겟의 좌표를 스크린좌표로 변환
+                MissileCrossHair.transform.position = Camera.main.WorldToScreenPoint(GameManager.Instance.GetTargetList()[index].transform.position); // 타겟의 좌표를 스크린좌표로 변환
                 MissileCrossHair.GetComponent<Image>().color = Color.red; // 빨간색으로 UI 변경
             }
         }

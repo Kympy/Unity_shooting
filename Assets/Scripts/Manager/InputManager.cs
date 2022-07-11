@@ -46,7 +46,7 @@ public class InputManager : MonoBehaviour
         }
         if(Input.GetKeyDown(KeyCode.Space) && GameManager.Instance.GetGameOver())
         {
-            GameManager.Instance._Loading.LoadSceneNumber(1);
+            //GameManager.Instance._Loading.LoadSceneNumber(1);
         }
         if(Input.GetKeyUp(KeyCode.W))
         {

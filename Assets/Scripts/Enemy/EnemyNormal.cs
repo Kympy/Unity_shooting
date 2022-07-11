@@ -40,17 +40,19 @@ public class EnemyNormal : Enemy
     public void CheckTargetInCamera()
     {
         // ========================= 카메라 시야에 들어오면 타겟 후보 목록에 올림 ===================== //
-        screenPoint = GameManager.Instance.mainCamera.WorldToViewportPoint(transform.position);
+        screenPoint =Camera.main.WorldToViewportPoint(transform.position);
         if (screenPoint.z > 0 &&
             screenPoint.x > 0 && screenPoint.x < 1 &&
             screenPoint.y > 0 && screenPoint.y < 1) // 시야에 들어오면
         {
             if(isIn == false) // 목록에 없다면
             {
-                if(Vector3.Distance(transform.position, GameManager.Instance._Player.transform.position) <= 2000.0f) // 2000 거리 안쪽에 있다면
+                if(Vector3.Distance(transform.position, GameManager.Instance._Player.transform.position) <= 1000.0f) // 1000 거리 안쪽에 있다면
                 {
-                    //Debug.Log("In");
-                    GameManager.Instance.Target.Add(this.gameObject); // 추가
+                    Debug.Log(GameManager.Instance.GetTargetList().Count);
+                    GameManager.Instance.AddTargetList(this.gameObject); // 추가
+
+
                     isIn = true;
                 }
             }
@@ -58,7 +60,7 @@ public class EnemyNormal : Enemy
         else // 시야를 벗어나면
         {
             //Debug.Log("Out");
-            GameManager.Instance.Target.Remove(this.gameObject); // 목록에서 제거
+            GameManager.Instance.RemoveTargetList(this.gameObject); // 목록에서 제거
             isIn = false;
         }
     }
@@ -148,7 +150,7 @@ public class EnemyNormal : Enemy
     public override void DestroyEnemy()
     {
         //GameManager.Instance._EnemyPool.ReturnEnemy(this);
-        GameManager.Instance.Target.Remove(this.gameObject); // 목록에서 제거
+        GameManager.Instance.RemoveTargetList(this.gameObject); // 목록에서 제거
         GameManager.Instance._Player.ResetTargetIndex(); // 플레이어의 타겟 인덱스 0으로 초기화
         Instantiate(GameManager.Instance._Effect.GetExplosion(), transform.position, transform.rotation);
         GameManager.Instance.SetScore(100);

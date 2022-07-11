@@ -22,11 +22,10 @@ public class Singleton<T> : MonoBehaviour where T : class, new()
 					lock(_lock)
                     {
 						// Create
-						/*
 						GameObject obj = new GameObject(typeof(T).ToString(), typeof(T));
 						_instance = obj.GetComponent<T>();
-						DontDestroyOnLoad(obj); */
-						_instance = new GameObject(typeof(T).ToString(), typeof(T)).GetComponent<T>();
+						DontDestroyOnLoad(obj);
+						//_instance = new GameObject(typeof(T).ToString(), typeof(T)).GetComponent<T>();
 						if (_instance == null)
 						{
 							Debug.LogError("##[Error]MonoBehaviourSingleton Instance Init ERROR - " + typeof(T).ToString());
@@ -37,25 +36,6 @@ public class Singleton<T> : MonoBehaviour where T : class, new()
 
 			}
 			return _instance;
-		}
-	}
-	private void Awake()
-	{
-		if (_instance == null)
-		{
-			//base.Awake();
-			transform.position = base.transform.position;
-			//gameObject.transform = base.gameObject.transform;
-			//InstanceID = GetInstanceID();
-
-			//Debug.Log( "##[Info]Instance Set : " + +GetInstanceID() );
-			_instance = this as T;
-		}
-		else
-		{
-			if (_instance != this)
-				//Debug.Log( "##[Info]Instance Already : " + GetInstanceID() );
-				DestroyImmediate(base.gameObject);
 		}
 	}
 }

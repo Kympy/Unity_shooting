@@ -16,12 +16,13 @@ public class LoadingSceneManager : MonoBehaviour
     }
     private void Start()
     {
-        StartCoroutine(Loading());
+        
     }
     public void LoadSceneNumber(int index)
     {
         sceneIndex = index;
         SceneManager.LoadScene(2); // ·Îµù ¾À È£Ãâ
+        StartCoroutine(Loading());
     }
     IEnumerator Loading()
     {
@@ -46,6 +47,7 @@ public class LoadingSceneManager : MonoBehaviour
                 if(progressBar.value >= 1.0f)
                 {
                     loadingOp.allowSceneActivation = true;
+                    break;
                 }
             }
         }

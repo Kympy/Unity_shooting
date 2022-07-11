@@ -348,6 +348,7 @@
 "Assets/Scripts/Bullets/Missile.cs"
 "Assets/Scripts/Enemy/Enemy.cs"
 "Assets/Scripts/Enemy/EnemyNormal.cs"
+"Assets/Scripts/LoadingSceneManager.cs"
 "Assets/Scripts/Manager/EffectManager.cs"
 "Assets/Scripts/Manager/GameManager.cs"
 "Assets/Scripts/Manager/InputManager.cs"

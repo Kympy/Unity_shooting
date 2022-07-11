@@ -4,16 +4,15 @@ using UnityEngine;
 
 public class BulletPool : MonoBehaviour
 {
-    private GameObject _bulletPrefab;                        // ===== 총알 프리팹
+    private GameObject _bulletPrefab;                   // ===== 총알 프리팹
     private Queue<Bullet> poolingQueue = new Queue<Bullet>(); // ==== 총알 담을 큐
     private int i = 0;
     private void Awake()
     {
-        //Debug.Log("## BulletPool Awake");
+        _bulletPrefab = Resources.Load("Bullet/PlayerBullet") as GameObject;
     }
     private void Start()
     {
-        //Debug.Log("## BulletPool Start");
         if (_bulletPrefab == null) Debug.Log("NULL OBJECT");
         InitQueue(20);
     }

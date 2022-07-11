@@ -6,9 +6,13 @@ public class EffectManager : MonoBehaviour
 {
     private GameObject explodeEffect;
 
-    public void Init()
+    private void Awake()
     {
         explodeEffect = Resources.Load("Effect/Explosion") as GameObject;
+    }
+    public void Init()
+    {
+        //explodeEffect = 
     }
     public GameObject GetExplosion()
     {

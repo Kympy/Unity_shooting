@@ -59,9 +59,9 @@ public class Player : MonoBehaviour
     private void Update()
     {
 
-        if (targetIndex > GameManager.Instance.Target.Count - 1)
+        if (targetIndex > GameManager.Instance.GetTargetList().Count - 1)
         {
-            targetIndex = GameManager.Instance.Target.Count - 1;
+            targetIndex = GameManager.Instance.GetTargetList().Count - 1;
         }
         else if(targetIndex < 0)
         {
@@ -189,7 +189,7 @@ public class Player : MonoBehaviour
     }
     public void NextTargetIndex() // E 키
     {
-        if (targetIndex < GameManager.Instance.Target.Count - 1)
+        if (targetIndex < GameManager.Instance.GetTargetList().Count - 1)
         {
             targetIndex += 1;
             //Debug.Log("Index : " + targetIndex);
@@ -203,7 +203,7 @@ public class Player : MonoBehaviour
             targetIndex -= 1;
             //Debug.Log("Index : " + targetIndex);
         }
-        else targetIndex = GameManager.Instance.Target.Count - 1;
+        else targetIndex = GameManager.Instance.GetTargetList().Count - 1;
     }
     public void ResetTargetIndex()
     {
