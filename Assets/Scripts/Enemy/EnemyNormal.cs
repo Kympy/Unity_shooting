@@ -9,10 +9,9 @@ public class EnemyNormal : Enemy
         forward,
         right,
         left,
-        attack,
     }
     private float HP = 100.0f;
-    private float speed = 30f; // 속도
+    private float speed = 25f; // 속도
 
     private Rigidbody rigidBody;
 
@@ -47,7 +46,7 @@ public class EnemyNormal : Enemy
             if (Vector3.Distance(transform.position, GameManager.Instance._Player.transform.position) <= 1000.0f) // 1000 거리 안쪽에 있다면
             {
                 //Debug.Log(GameManager.Instance.GetTargetList().Count);
-                if (GameManager.Instance.GetTargetList().Contains(this.gameObject) == false)
+                if (GameManager.Instance.GetTargetList().Contains(this.gameObject) == false) // 타겟 후보 목록에 없다면
                 {
                     GameManager.Instance.AddTargetList(this.gameObject); // 추가
                 }
@@ -68,42 +67,38 @@ public class EnemyNormal : Enemy
             direction = Quaternion.LookRotation(GameManager.Instance._Player.transform.position - transform.position);
             transform.rotation = Quaternion.Slerp(transform.rotation, direction, Time.deltaTime * 3f);
         }
-        else
+        else // 플레이어가 사거리에 없다면 자유 이동
         {
             rigidBody.velocity = transform.forward * speed;
-            if(movementTimer > 2f)
+            transform.rotation = Quaternion.Slerp(transform.rotation, direction, Time.deltaTime * 1f); // case 에 따라 회전 방향 변경
+            if (movementTimer > 3f)
             {
                 switch (Random.Range(0, 4))
                 {
-                    case (int)State.forward:
+                    case (int)State.forward: // 전방 이동
                         {
-                            direction = Quaternion.LookRotation(transform.forward * 100f - transform.position);
-                            transform.rotation = Quaternion.Slerp(transform.rotation, direction, Time.deltaTime * 1f);
+                            direction = Quaternion.LookRotation(transform.forward);
+                            //transform.rotation = Quaternion.Slerp(transform.rotation, direction, Time.deltaTime * 1f);
                             //transform.Translate(Vector3.forward * speed * Time.deltaTime);
+                            Debug.Log("Enemy forward");
                             break;
                         }
-                    case (int)State.left:
+                    case (int)State.left: // 좌측 이동
                         {
-                            direction = Quaternion.LookRotation(-transform.right * 100f - transform.position);
-                            transform.rotation = Quaternion.Slerp(transform.rotation, direction, Time.deltaTime * 1f);
+                            direction = Quaternion.LookRotation(-transform.right);
+                            //transform.rotation = Quaternion.Slerp(transform.rotation, direction, Time.deltaTime * 1f);
+                            Debug.Log("Enemy Left");
                             //transform.Translate((Vector3.forward + Vector3.left) * speed * Time.deltaTime);
                             break;
                         }
-                    case (int)State.right:
+                    case (int)State.right: // 우측 이동
                         {
-                            direction = Quaternion.LookRotation(transform.right * 100f - transform.position);
-                            transform.rotation = Quaternion.Slerp(transform.rotation, direction, Time.deltaTime * 1f);
+                            direction = Quaternion.LookRotation(transform.right);
+                            //transform.rotation = Quaternion.Slerp(transform.rotation, direction, Time.deltaTime * 1f);
                             //transform.Translate((Vector3.forward + Vector3.right) * speed * Time.deltaTime);
+                            Debug.Log("Enemy Right");
                             break;
-                        }
-                    case (int)State.attack:
-                        {
-                            direction = Quaternion.LookRotation(transform.forward * 100f - transform.position);
-                            transform.rotation = Quaternion.Slerp(transform.rotation, direction, Time.deltaTime * 1f);
-                            //transform.Translate(Vector3.forward * speed * Time.deltaTime);
-                            break;
-                        }
-                        
+                        }                 
                 }
                 movementTimer = 0f;
             }

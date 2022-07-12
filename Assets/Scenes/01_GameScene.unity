@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.48311162, g: 0.5279228, b: 0.5974375, a: 1}
+  m_IndirectSpecularColor: {r: 0.48311317, g: 0.5279242, b: 0.59743935, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -173,6 +173,7 @@ MonoBehaviour:
   _Effect: {fileID: 0}
   _Loading: {fileID: 0}
   _BulletPool: {fileID: 0}
+  Target: []
 --- !u!1 &168535191
 GameObject:
   m_ObjectHideFlags: 0
@@ -420,6 +421,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: EnemyNormal (9)
       objectReference: {fileID: 0}
+    - target: {fileID: 2314636662204366057, guid: 07df040c1868edb4aa27bb97a56eb2ec, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2314636662204779211, guid: 07df040c1868edb4aa27bb97a56eb2ec, type: 3}
       propertyPath: m_RootOrder
       value: 16
@@ -534,6 +539,10 @@ PrefabInstance:
     - target: {fileID: 2314636662204366057, guid: 07df040c1868edb4aa27bb97a56eb2ec, type: 3}
       propertyPath: m_Name
       value: EnemyNormal (8)
+      objectReference: {fileID: 0}
+    - target: {fileID: 2314636662204366057, guid: 07df040c1868edb4aa27bb97a56eb2ec, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2314636662204779211, guid: 07df040c1868edb4aa27bb97a56eb2ec, type: 3}
       propertyPath: m_RootOrder
@@ -1293,6 +1302,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: EnemyNormal
       objectReference: {fileID: 0}
+    - target: {fileID: 2314636662204366057, guid: 07df040c1868edb4aa27bb97a56eb2ec, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2314636662204779211, guid: 07df040c1868edb4aa27bb97a56eb2ec, type: 3}
       propertyPath: m_RootOrder
       value: 7
@@ -1349,6 +1362,10 @@ PrefabInstance:
     - target: {fileID: 2314636662204366057, guid: 07df040c1868edb4aa27bb97a56eb2ec, type: 3}
       propertyPath: m_Name
       value: EnemyNormal (5)
+      objectReference: {fileID: 0}
+    - target: {fileID: 2314636662204366057, guid: 07df040c1868edb4aa27bb97a56eb2ec, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2314636662204779211, guid: 07df040c1868edb4aa27bb97a56eb2ec, type: 3}
       propertyPath: m_RootOrder
@@ -1968,6 +1985,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: EnemyNormal (4)
       objectReference: {fileID: 0}
+    - target: {fileID: 2314636662204366057, guid: 07df040c1868edb4aa27bb97a56eb2ec, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2314636662204779211, guid: 07df040c1868edb4aa27bb97a56eb2ec, type: 3}
       propertyPath: m_RootOrder
       value: 11
@@ -2268,6 +2289,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: EnemyNormal (6)
       objectReference: {fileID: 0}
+    - target: {fileID: 2314636662204366057, guid: 07df040c1868edb4aa27bb97a56eb2ec, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2314636662204779211, guid: 07df040c1868edb4aa27bb97a56eb2ec, type: 3}
       propertyPath: m_RootOrder
       value: 13
@@ -2361,6 +2386,10 @@ PrefabInstance:
     - target: {fileID: 2314636662204366057, guid: 07df040c1868edb4aa27bb97a56eb2ec, type: 3}
       propertyPath: m_Name
       value: EnemyNormal (7)
+      objectReference: {fileID: 0}
+    - target: {fileID: 2314636662204366057, guid: 07df040c1868edb4aa27bb97a56eb2ec, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2314636662204779211, guid: 07df040c1868edb4aa27bb97a56eb2ec, type: 3}
       propertyPath: m_RootOrder
@@ -2508,6 +2537,10 @@ PrefabInstance:
     - target: {fileID: 2314636662204366057, guid: 07df040c1868edb4aa27bb97a56eb2ec, type: 3}
       propertyPath: m_Name
       value: EnemyNormal (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 2314636662204366057, guid: 07df040c1868edb4aa27bb97a56eb2ec, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2314636662204779211, guid: 07df040c1868edb4aa27bb97a56eb2ec, type: 3}
       propertyPath: m_RootOrder
@@ -2767,6 +2800,10 @@ PrefabInstance:
     - target: {fileID: 2314636662204366057, guid: 07df040c1868edb4aa27bb97a56eb2ec, type: 3}
       propertyPath: m_Name
       value: EnemyNormal (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 2314636662204366057, guid: 07df040c1868edb4aa27bb97a56eb2ec, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2314636662204779211, guid: 07df040c1868edb4aa27bb97a56eb2ec, type: 3}
       propertyPath: m_RootOrder
