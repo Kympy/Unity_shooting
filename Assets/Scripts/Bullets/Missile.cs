@@ -8,9 +8,9 @@ public class Missile : MonoBehaviour
     private GameObject target;
     private Rigidbody rigidBody;
     private float timer = 0f;
-    private Vector3 direction;
+    //private Vector3 direction;
     private GameObject body; // 미사일 몸체
-    private float distance;
+    //private float distance;
     private void Awake()
     {
         body = transform.GetChild(0).gameObject;
@@ -20,7 +20,9 @@ public class Missile : MonoBehaviour
     }
     private void Start()
     {
-        distance = Vector3.Distance(transform.position, target.transform.position);
+
+            //distance = Vector3.Distance(transform.position, target.transform.position);
+
         Invoke("DestroyMissile", 6f); // 5초 후 자동 파괴
     }
     private void FixedUpdate()

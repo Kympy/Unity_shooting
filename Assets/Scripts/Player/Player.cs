@@ -58,7 +58,7 @@ public class Player : MonoBehaviour
     }
     private void Update()
     {
-
+        /*
         if (targetIndex > GameManager.Instance.GetTargetList().Count - 1)
         {
             targetIndex = GameManager.Instance.GetTargetList().Count - 1;
@@ -66,7 +66,7 @@ public class Player : MonoBehaviour
         else if(targetIndex < 0)
         {
             targetIndex = 0;
-        }
+        }*/
         //Debug.Log(targetIndex);
         LockTarget();
 

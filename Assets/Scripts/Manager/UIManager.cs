@@ -107,6 +107,7 @@ public class UIManager : MonoBehaviour
     {
         MissileCrossHair.transform.position = originPos;
         MissileCrossHair.GetComponent<Image>().color = basicColor_Aim;
+        GameManager.Instance._Player.ResetTargetIndex();
     }
     public void UpdateHPbar() // 체력바 업데이트
     {
