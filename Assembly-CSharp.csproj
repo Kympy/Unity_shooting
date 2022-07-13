@@ -64,6 +64,7 @@
     <Compile Include="Assets\Scripts\Manager\Singleton.cs" />
     <Compile Include="Assets\Scripts\LoadingSceneManager.cs" />
     <Compile Include="Assets\Scripts\Manager\GameManager.cs" />
+    <Compile Include="Assets\Scripts\Spawn.cs" />
     <Compile Include="Assets\Scripts\AudioManager.cs" />
     <Compile Include="Assets\Scripts\Bullets\Missile.cs" />
     <Compile Include="Assets\Scripts\Bullets\Bullet.cs" />

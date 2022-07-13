@@ -10,10 +10,7 @@ public class EffectManager : MonoBehaviour
     {
         explodeEffect = Resources.Load("Effect/Explosion") as GameObject;
     }
-    public void Init()
-    {
-        //explodeEffect = 
-    }
+
     public GameObject GetExplosion()
     {
         return explodeEffect;

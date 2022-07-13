@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : Singleton<GameManager>
 {
@@ -20,23 +21,31 @@ public class GameManager : Singleton<GameManager>
         gameObject.AddComponent<InputManager>();
         gameObject.AddComponent<UIManager>();
         gameObject.AddComponent<EffectManager>();
-        //gameObject.AddComponent<LoadingSceneManager>();
         gameObject.AddComponent<BulletPool>();
 
-        _Player = FindObjectOfType<Player>();
         _Input = GetComponent<InputManager>();
         _UI = GetComponent<UIManager>();
         _Effect = GetComponent<EffectManager>();
-        //_Loading = GetComponent<LoadingSceneManager>();
         _BulletPool = GetComponent<BulletPool>();
+
+        Time.timeScale = 1f;
+        GameOver = false;
+    }
+    private void Start()
+    {
+        _Player = FindObjectOfType<Player>();
+        _Player.ResetHP();
     }
     private void Update()
     {
-        _Input.OnUpdate();
-        _UI.TextSpeed();
-        _UI.TextHeight();
-        _UI.TextScore();
-        _UI.UpdateHPbar();
+        if(SceneManager.GetActiveScene().buildIndex == 1)
+        {
+            _Input.OnUpdate();
+            _UI.TextSpeed();
+            _UI.TextHeight();
+            _UI.TextScore();
+            _UI.UpdateHPbar();
+        }
         //Debug.Log("Target List Count : " + Target.Count);
     }
     public int GetScore()

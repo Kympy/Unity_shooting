@@ -105,9 +105,12 @@ public class UIManager : MonoBehaviour
     }
     public void FocusOut() // 조준 해제
     {
-        MissileCrossHair.transform.position = originPos;
-        MissileCrossHair.GetComponent<Image>().color = basicColor_Aim;
-        GameManager.Instance._Player.ResetTargetIndex();
+        if(MissileCrossHair != null)
+        {
+            MissileCrossHair.GetComponent<Image>().color = basicColor_Aim;
+            MissileCrossHair.transform.position = originPos;
+            GameManager.Instance._Player.ResetTargetIndex();
+        }
     }
     public void UpdateHPbar() // 체력바 업데이트
     {
@@ -119,5 +122,10 @@ public class UIManager : MonoBehaviour
         GameManager.Instance.SetGameOver();
         gameOver.gameObject.SetActive(true);
         Time.timeScale = 0f; // 정지
+    }
+    public void GameRestart()
+    {
+        gameOver.gameObject.SetActive(false);
+        Time.timeScale = 1f;
     }
 }

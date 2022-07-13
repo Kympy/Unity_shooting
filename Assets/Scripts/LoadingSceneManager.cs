@@ -6,23 +6,18 @@ using UnityEngine.UI;
 
 public class LoadingSceneManager : MonoBehaviour
 {
-    private int sceneIndex;
+    private static int sceneIndex;
     private float timer = 0f;
-    private Slider progressBar;
+    public Image progressBar;
 
-    private void Awake()
-    {
-        progressBar = GameObject.Find("ProgressBar").GetComponent<Slider>();
-    }
     private void Start()
     {
-        
+        StartCoroutine(Loading());
     }
-    public void LoadSceneNumber(int index)
+    public static void LoadSceneNumber(int index)
     {
         sceneIndex = index;
         SceneManager.LoadScene(2); // ·Îµù ¾À È£Ãâ
-        StartCoroutine(Loading());
     }
     IEnumerator Loading()
     {
@@ -35,19 +30,19 @@ public class LoadingSceneManager : MonoBehaviour
             timer += Time.deltaTime;
             if(loadingOp.progress < 0.9f)
             {
-                progressBar.value = Mathf.Lerp(progressBar.value, loadingOp.progress, Time.deltaTime * 8f);
-                if(progressBar.value >= loadingOp.progress)
+                progressBar.fillAmount = Mathf.Lerp(progressBar.fillAmount, loadingOp.progress, timer);
+                if(progressBar.fillAmount >= loadingOp.progress)
                 {
                     timer = 0f;
                 }
             }
             else
             {
-                progressBar.value = Mathf.Lerp(progressBar.value, 1f, Time.deltaTime * 8f);
-                if(progressBar.value >= 1.0f)
+                progressBar.fillAmount = Mathf.Lerp(progressBar.fillAmount, 1f, timer);
+                if(progressBar.fillAmount >= 1.0f)
                 {
                     loadingOp.allowSceneActivation = true;
-                    break;
+                    yield break;
                 }
             }
         }

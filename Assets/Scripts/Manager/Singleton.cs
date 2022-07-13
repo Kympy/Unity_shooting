@@ -32,8 +32,6 @@ public class Singleton<T> : MonoBehaviour where T : class, new()
 						}
 					}
 				}
-				
-
 			}
 			return _instance;
 		}

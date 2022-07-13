@@ -39,6 +39,8 @@ public class Player : MonoBehaviour
 
     private void Awake()
     {
+        Time.timeScale = 1f;
+        GameManager.Instance._UI.GameRestart();
         HP = 100.0f;
         speed = 2000.0f;
         missile = Resources.Load("Bullet/Missile") as GameObject;
@@ -232,6 +234,10 @@ public class Player : MonoBehaviour
         {
             HP -= damage; // 데미지 만큼 체력 감소
         }
+    }
+    public void ResetHP()
+    {
+        HP = 100f;
     }
     private void Dead() // 사망 함수
     {
