@@ -32,6 +32,7 @@ public class GameManager : Singleton<GameManager>
     }
     private void Start()
     {
+        if (SceneManager.GetActiveScene().buildIndex == 1) Cursor.visible = false;
         _Player = FindObjectOfType<Player>();
         _Player.ResetHP();
     }
@@ -44,7 +45,9 @@ public class GameManager : Singleton<GameManager>
             _UI.TextHeight();
             _UI.TextScore();
             _UI.UpdateHPbar();
+            CheckScore();
         }
+        else Cursor.visible = true;
         //Debug.Log("Target List Count : " + Target.Count);
     }
     public int GetScore()
@@ -85,5 +88,12 @@ public class GameManager : Singleton<GameManager>
     public void ExitGame()
     {
         Application.Quit();
+    }
+    public void CheckScore()
+    {
+        if(score >= 2000)
+        {
+            _UI.GameWin();
+        }
     }
 }

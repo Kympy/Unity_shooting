@@ -11,6 +11,7 @@ public class UIManager : MonoBehaviour
     private TextMeshProUGUI height; // 고도
     private TextMeshProUGUI score; // 점수
     private TextMeshProUGUI gameOver; // 게임 종료화면
+    private TextMeshProUGUI gameWin; // 승리화면
     private Color basicColor; // 기본 테마 초록색
     private Slider HPbar; // 체력 바
 
@@ -27,11 +28,13 @@ public class UIManager : MonoBehaviour
         height = GameObject.Find("Height").GetComponent<TextMeshProUGUI>();
         score = GameObject.Find("Score").GetComponent<TextMeshProUGUI>();
         gameOver = GameObject.Find("GameOver").GetComponent<TextMeshProUGUI>();
+        gameWin = GameObject.Find("GameWin").GetComponent<TextMeshProUGUI>();
         basicColor = height.color;
     }
     private void Start()
     {
         gameOver.gameObject.SetActive(false);
+        gameWin.gameObject.SetActive(false);
         GunCrossHair = GameObject.Find("CrossHairGun").gameObject;
         MissileCrossHair = GameObject.Find("CrossHairMissile").gameObject;
         MissileCrossHair.SetActive(false);
@@ -123,11 +126,18 @@ public class UIManager : MonoBehaviour
         gameOver.gameObject.SetActive(true);
         Time.timeScale = 0f; // 정지
     }
+    public void GameWin()
+    {
+        GameManager.Instance.SetGameOver(true);
+        gameWin.gameObject.SetActive(true);
+        Time.timeScale = 0f; // 정지
+    }
     public void GameRestart()
     {
         GameManager.Instance.SetGameOver(false);
         //gameOver = GameObject.Find("GameOver").GetComponent<TextMeshProUGUI>();
         gameOver.gameObject.SetActive(false);
+        gameWin.gameObject.SetActive(true);
         Time.timeScale = 1f;
     }
 }

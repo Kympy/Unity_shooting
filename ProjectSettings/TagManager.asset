@@ -9,9 +9,10 @@ TagManager:
   - FxTemporaire
   - Effect
   - Outlet
-  - Particle
   - Missile
   - Terrain
+  - ParticleL
+  - ParticleR
   layers:
   - Default
   - TransparentFX

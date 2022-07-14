@@ -35,7 +35,8 @@ public class Player : MonoBehaviour
 
     // ========================================= 기타 ========================================= //
 
-    private GameObject exhaustOutlet; // 배출구 오브젝트
+    private GameObject exhaustOutlet_L; // 배출구 오브젝트
+    private GameObject exhaustOutlet_R; // 배출구 오브젝트
 
     private void Awake()
     {
@@ -55,8 +56,10 @@ public class Player : MonoBehaviour
         rigidBody = GetComponent<Rigidbody>();
         muzzleFlash = GameObject.FindGameObjectWithTag("Effect").gameObject;
         muzzleFlash.SetActive(false);
-        exhaustOutlet = GameObject.FindGameObjectWithTag("Particle").gameObject;
-        exhaustOutlet.SetActive(false);
+        exhaustOutlet_L = GameObject.FindGameObjectWithTag("ParticleL").gameObject;
+        exhaustOutlet_L.SetActive(false);
+        exhaustOutlet_R = GameObject.FindGameObjectWithTag("ParticleR").gameObject;
+        exhaustOutlet_R.SetActive(false);
         //GameManager.Instance._Input.KeyAction -= PlayerControl;
         //GameManager.Instance._Input.KeyAction += PlayerControl;
     }
@@ -89,7 +92,8 @@ public class Player : MonoBehaviour
     }
     public void MoveFoward() // 전진
     {
-        exhaustOutlet.SetActive(true);
+        exhaustOutlet_L.SetActive(true);
+        exhaustOutlet_R.SetActive(true);
         rigidBody.AddForce(transform.forward * speed * Time.deltaTime + transform.up, ForceMode.Acceleration);
         //transform.position += transform.forward * Time.deltaTime * speed;
     }
@@ -170,7 +174,8 @@ public class Player : MonoBehaviour
     }
     public void WKeyUp() // 전진 키 미 입력 시 배출구 이펙트 비활성화
     {
-        exhaustOutlet.SetActive(false);
+        exhaustOutlet_L.SetActive(false);
+        exhaustOutlet_R.SetActive(false);
     }
     public bool GetAttackMode() // 현재 공격모드 가져오기
     {
