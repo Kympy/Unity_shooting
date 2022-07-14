@@ -40,8 +40,8 @@ public class Player : MonoBehaviour
     private void Awake()
     {
         Time.timeScale = 1f;
-        GameManager.Instance._Player = GetComponent<Player>();
-        GameManager.Instance.InitGameManager();
+        //GameManager.Instance._Player = GetComponent<Player>();
+        //GameManager.Instance.InitGameManager();
         GameManager.Instance._UI.GameRestart();
         HP = 100.0f;
         speed = 2000.0f;
@@ -49,7 +49,7 @@ public class Player : MonoBehaviour
     }
     void Start()
     {
-        lastPosition = transform.position;
+        lastPosition = transform.position; // 속도 계산을 위한 마지막 위치 저장
         ShootPoint = GameObject.Find("ShootPoint").gameObject;
         FirePoint = GameObject.Find("FirePoint").gameObject;
         rigidBody = GetComponent<Rigidbody>();
@@ -62,18 +62,7 @@ public class Player : MonoBehaviour
     }
     private void Update()
     {
-        /*
-        if (targetIndex > GameManager.Instance.GetTargetList().Count - 1)
-        {
-            targetIndex = GameManager.Instance.GetTargetList().Count - 1;
-        }
-        else if(targetIndex < 0)
-        {
-            targetIndex = 0;
-        }*/
-        //Debug.Log(targetIndex);
-        LockTarget();
-
+        LockTarget(); // 타겟 고정
     }
     private void FixedUpdate()
     {
@@ -170,7 +159,7 @@ public class Player : MonoBehaviour
         }
     }
     // ============================ 사격 & 미사일 모드 변경 =========================== //
-    public void ChangeAttackMode()
+    public void ChangeAttackMode() // 공격모드 변경
     {
         missileMode = !missileMode;
         GameManager.Instance._UI.TextAttackMode();
@@ -187,7 +176,7 @@ public class Player : MonoBehaviour
     {
         return missileMode;
     }
-    public void LockTarget()
+    public void LockTarget() // 미사일 모드 시 적에게 타겟 고정
     {
         GameManager.Instance._UI.FocusTarget(targetIndex);
     }
@@ -209,11 +198,11 @@ public class Player : MonoBehaviour
         }
         else targetIndex = GameManager.Instance.GetTargetList().Count - 1;
     }
-    public void ResetTargetIndex()
+    public void ResetTargetIndex() // 타겟 인덱스 초기화
     {
         targetIndex = 0;
     }
-    private void CalculateVelocity()
+    private void CalculateVelocity() // 속도계산
     {
         velocity = (transform.position - lastPosition).magnitude / Time.deltaTime;
         lastPosition = transform.position;
@@ -259,23 +248,22 @@ public class Player : MonoBehaviour
             GameManager.Instance._UI.GameOver();
             Debug.Log("GameOver");
         }
-        else if(collision.gameObject.tag == "Enemy")
+        else if(collision.gameObject.tag == "Enemy") // 적 충돌
         {
             Debug.Log("Enemy Collision");
             DecreaseHP(10f);
             Instantiate(GameManager.Instance._Effect.GetExplosion(), transform.position, transform.rotation);
         }
     }
-    /*
-    private void FixRotation() // 기울기, 회전 최댓값 고정
+    public void ResetPlayer() // 플레이어 리셋
     {
-
+        rigidBody.isKinematic = true;
+        GameManager.Instance._UI.GameRestart();
+        transform.position = new Vector3(0, 600, 0);
+        transform.rotation = Quaternion.Euler(0, 0, 0);
+        HP = 100.0f;
+        speed = 2000.0f;
+        isDead = false;
+        rigidBody.isKinematic = false;
     }
-    public void PlayerControl()
-    {
-        if(Input.GetKey(KeyCode.D))
-        {
-            rigidBody.AddForce(Vector3.right * speed * Time.deltaTime);
-        }
-    }*/
 }

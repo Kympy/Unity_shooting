@@ -16,7 +16,7 @@ public class Singleton<T> : MonoBehaviour where T : class, new()
 			if (_instance == null)
 			{
 				// find
-				_instance = GameObject.FindObjectOfType(typeof(T)) as T;
+				_instance = GameObject.FindObjectOfType(typeof(T)) as T; // 이미 있으면 가져오기
 				if (_instance == null)
 				{
 					lock(_lock)

@@ -6,19 +6,19 @@ using TMPro;
 
 public class UIManager : MonoBehaviour
 {
-    private TextMeshProUGUI attackMode;
-    private TextMeshProUGUI speed;
-    private TextMeshProUGUI height;
-    private TextMeshProUGUI score;
-    private TextMeshProUGUI gameOver;
-    private Color basicColor;
-    private Slider HPbar;
+    private TextMeshProUGUI attackMode; // 공격 모드
+    private TextMeshProUGUI speed; // 속도
+    private TextMeshProUGUI height; // 고도
+    private TextMeshProUGUI score; // 점수
+    private TextMeshProUGUI gameOver; // 게임 종료화면
+    private Color basicColor; // 기본 테마 초록색
+    private Slider HPbar; // 체력 바
 
-    private GameObject GunCrossHair;
-    private GameObject MissileCrossHair;
-    private Vector3 originPos;
-    private Color basicColor_Aim;
-    private float currentHP;
+    private GameObject GunCrossHair; // 에임
+    private GameObject MissileCrossHair; // 미사일 에임
+    private Vector3 originPos; // 미사일 UI 기본 위치
+    private Color basicColor_Aim; // 기본 색
+    private float currentHP; // 현재 체력
 
     private void Awake()
     {
@@ -119,13 +119,14 @@ public class UIManager : MonoBehaviour
     }
     public void GameOver() // 게임 오버 화면
     {
-        GameManager.Instance.SetGameOver();
+        GameManager.Instance.SetGameOver(true);
         gameOver.gameObject.SetActive(true);
         Time.timeScale = 0f; // 정지
     }
     public void GameRestart()
     {
-        gameOver = GameObject.Find("GameOver").GetComponent<TextMeshProUGUI>();
+        GameManager.Instance.SetGameOver(false);
+        //gameOver = GameObject.Find("GameOver").GetComponent<TextMeshProUGUI>();
         gameOver.gameObject.SetActive(false);
         Time.timeScale = 1f;
     }

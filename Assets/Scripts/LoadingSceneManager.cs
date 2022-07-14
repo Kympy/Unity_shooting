@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public class LoadingSceneManager : MonoBehaviour
 {
-    private static int sceneIndex;
+    private static int sceneIndex = 1;
     private float timer = 0f;
     public Image progressBar;
 

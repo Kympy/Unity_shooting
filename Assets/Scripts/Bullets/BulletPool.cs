@@ -16,7 +16,7 @@ public class BulletPool : MonoBehaviour
         if (_bulletPrefab == null) Debug.Log("NULL OBJECT");
         InitQueue(20);
     }
-    private void InitQueue(int QueueSize)
+    private void InitQueue(int QueueSize) // 큐 초기화
     {
         //Debug.Log("## BulletPool InitQueue start");
         for (int i = 0; i < QueueSize; i++)
@@ -26,7 +26,7 @@ public class BulletPool : MonoBehaviour
             poolingQueue.Enqueue(obj);
         }
     }
-    private Bullet CreateBullet()
+    private Bullet CreateBullet() // 총알 프리팹 생성
     {
         Bullet obj = Instantiate(_bulletPrefab).GetComponent<Bullet>();
         obj.name = "newCreatedBullet_" + i++;
@@ -34,7 +34,7 @@ public class BulletPool : MonoBehaviour
         obj.transform.SetParent(transform);
         return obj;
     }
-    public Bullet GetBullet()
+    public Bullet GetBullet() // 큐에서 총알 꺼내기
     {
         if (poolingQueue.Count > 0)
         {
@@ -44,7 +44,7 @@ public class BulletPool : MonoBehaviour
             obj.gameObject.SetActive(true);
             return obj;
         }
-        else
+        else // 큐에 총알이 없으면 생성해서 집어넣음
         {
             poolingQueue.Enqueue(CreateBullet());
             //Debug.Log("Enqueue New One");
@@ -55,7 +55,7 @@ public class BulletPool : MonoBehaviour
             return obj;
         }
     }
-    public void ReturnBullet(Bullet obj)
+    public void ReturnBullet(Bullet obj) // 큐에 총알 반환
     {
         obj.gameObject.SetActive(false);
         obj.transform.SetParent(transform);

@@ -17,15 +17,11 @@ public class EnemyNormal : Enemy
 
     private Vector3 screenPoint; // 스크린 좌표
     private float movementTimer = 0f; // 이동 타이머
-    private Quaternion direction;
+    private Quaternion direction; // 적이 바라보는 방향
 
     private void Awake()
     {
         rigidBody = GetComponent<Rigidbody>();
-    }
-    private void OnEnable()
-    {
-        //Invoke("DestroyEnemy", 1f);
     }
     private void FixedUpdate()
     {
@@ -104,37 +100,6 @@ public class EnemyNormal : Enemy
             }
            
         }
-        /*
-        if (movementTimer > 3f)
-        {
-            switch (Random.Range(0, 4))
-            {
-                case (int)State.forward:
-                    {
-                        direction = Quaternion.LookRotation(GameManager.Instance._Player.transform.position - transform.position);
-                        transform.rotation = Quaternion.Slerp(transform.rotation, direction, Time.deltaTime * 1f);
-                        //transform.Translate(Vector3.forward * speed * Time.deltaTime);
-                        break;
-                    }
-                case (int)State.left:
-                    {
-                        transform.Translate((Vector3.forward + Vector3.left) * speed * Time.deltaTime);
-                        break;
-                    }
-                case (int)State.right:
-                    {
-                        transform.Translate((Vector3.forward + Vector3.right) * speed * Time.deltaTime);
-                        break;
-                    }
-                case (int)State.attack:
-                    {
-                        transform.Translate(Vector3.forward * speed * Time.deltaTime);
-                        break;
-                    }
-            }
-            movementTimer = 0f;
-        }
-        */
     }
     // ==================================================== 적 파괴 함수 ================================================= //
     public override void DestroyEnemy()
@@ -142,9 +107,9 @@ public class EnemyNormal : Enemy
         //GameManager.Instance._EnemyPool.ReturnEnemy(this);
         GameManager.Instance.RemoveTargetList(this.gameObject); // 목록에서 제거
         GameManager.Instance._Player.ResetTargetIndex(); // 플레이어의 타겟 인덱스 0으로 초기화
-        Instantiate(GameManager.Instance._Effect.GetExplosion(), transform.position, transform.rotation);
-        GameManager.Instance.SetScore(100);
-        Destroy(this.gameObject);
+        Instantiate(GameManager.Instance._Effect.GetExplosion(), transform.position, transform.rotation); // 폭파 이펙트
+        GameManager.Instance.SetScore(100); // 점수 획득
+        Destroy(this.gameObject); // 파괴
         //rigidBody.useGravity = true;
         //rigidBody.drag = 0;
     }
