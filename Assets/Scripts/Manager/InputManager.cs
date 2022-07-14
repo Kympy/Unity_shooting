@@ -82,4 +82,8 @@ public class InputManager : MonoBehaviour
         }*/
 
     }
+    public void InitInput()
+    {
+
+    }
 }

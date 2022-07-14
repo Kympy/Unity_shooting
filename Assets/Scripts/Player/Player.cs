@@ -40,6 +40,8 @@ public class Player : MonoBehaviour
     private void Awake()
     {
         Time.timeScale = 1f;
+        GameManager.Instance._Player = GetComponent<Player>();
+        GameManager.Instance.InitGameManager();
         GameManager.Instance._UI.GameRestart();
         HP = 100.0f;
         speed = 2000.0f;

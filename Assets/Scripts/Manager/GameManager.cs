@@ -9,7 +9,6 @@ public class GameManager : Singleton<GameManager>
     public InputManager _Input;
     public UIManager _UI;
     public EffectManager _Effect;
-    public LoadingSceneManager _Loading;
     public BulletPool _BulletPool;
 
     public List<GameObject> Target = new List<GameObject>(); // 유도가 가능한 타겟 목록
@@ -75,5 +74,12 @@ public class GameManager : Singleton<GameManager>
     public void RemoveTargetList(GameObject target)
     {
         Target.Remove(target);
+    }
+    public void InitGameManager()
+    {
+        _Input = GetComponent<InputManager>();
+        _UI = GetComponent<UIManager>();
+        _Effect = GetComponent<EffectManager>();
+        _BulletPool = GetComponent<BulletPool>();
     }
 }

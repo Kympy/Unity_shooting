@@ -125,6 +125,7 @@ public class UIManager : MonoBehaviour
     }
     public void GameRestart()
     {
+        gameOver = GameObject.Find("GameOver").GetComponent<TextMeshProUGUI>();
         gameOver.gameObject.SetActive(false);
         Time.timeScale = 1f;
     }
