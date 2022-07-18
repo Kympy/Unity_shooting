@@ -63,7 +63,7 @@ public class BulletPool : MonoBehaviour
         poolingQueue.Enqueue(obj);
         //Debug.Log("Return finish");
     }
-    public void Init()
+    public void Init() // 총알 프리팹 가져오기
     {
         _bulletPrefab = Resources.Load("Bullet/PlayerBullet") as GameObject;
     }

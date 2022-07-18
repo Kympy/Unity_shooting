@@ -92,7 +92,7 @@ public class Player : MonoBehaviour
     }
     public void MoveFoward() // 전진
     {
-        exhaustOutlet_L.SetActive(true);
+        exhaustOutlet_L.SetActive(true); // 배출구 오브젝트 On / Off
         exhaustOutlet_R.SetActive(true);
         rigidBody.AddForce(transform.forward * speed * Time.deltaTime + transform.up, ForceMode.Acceleration);
         //transform.position += transform.forward * Time.deltaTime * speed;
@@ -130,9 +130,9 @@ public class Player : MonoBehaviour
 
             // ============================ 사격 이펙트 활성화 & 총알 생성 =========================== //
             muzzleFlash.SetActive(true);
-            if (GunTimer > 0.2f)
+            if (GunTimer > 0.2f) // 발사 간격
             {
-                Bullet obj = GameManager.Instance._BulletPool.GetBullet();
+                Bullet obj = GameManager.Instance._BulletPool.GetBullet(); // 총알 큐에서 꺼내오기
                 //obj.transform.position = transform.position + Vector3.forward * 5.0f + Vector3.left * 3.0f;
                 obj.transform.position = ShootPoint.transform.position;
                 obj.transform.rotation = transform.rotation;
@@ -140,13 +140,13 @@ public class Player : MonoBehaviour
                 GunTimer = 0f;
             }
             // ============================ 레이캐스트 적 피격 판정 =========================== //
-            Debug.DrawRay(Camera.main.transform.position, Camera.main.transform.forward * rayDistance, Color.red, 0.1f);
+            //Debug.DrawRay(Camera.main.transform.position, Camera.main.transform.forward * rayDistance, Color.red, 0.1f);
             if(Physics.Raycast(Camera.main.transform.position, Camera.main.transform.forward, out hit, rayDistance))
             {
-                if(hit.transform.tag == "Enemy")
+                if(hit.transform.tag == "Enemy") // 적 이라면
                 {
                     Debug.Log("## Enemy Damaged");
-                    hit.transform.gameObject.GetComponent<EnemyNormal>().DecreaseHP();
+                    hit.transform.gameObject.GetComponent<EnemyNormal>().DecreaseHP(); // 체력 감소
                 }
             }
         }// ============================ 미사일 모드 =========================== //

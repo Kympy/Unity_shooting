@@ -32,7 +32,7 @@ public class GameManager : Singleton<GameManager>
     }
     private void Start()
     {
-        if (SceneManager.GetActiveScene().buildIndex == 1) Cursor.visible = false;
+        if (SceneManager.GetActiveScene().buildIndex == 1) Cursor.visible = false; // 게임 씬이라면 커서 비활성화
         _Player = FindObjectOfType<Player>();
         _Player.ResetHP();
     }
@@ -78,7 +78,7 @@ public class GameManager : Singleton<GameManager>
     {
         Target.Remove(target);
     }
-    public void InitGameManager()
+    public void InitGameManager() // 게임매니저 초기화
     {
         _Input = GetComponent<InputManager>();
         _UI = GetComponent<UIManager>();

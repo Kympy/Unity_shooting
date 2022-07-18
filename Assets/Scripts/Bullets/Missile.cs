@@ -39,8 +39,8 @@ public class Missile : MonoBehaviour
             else
             {
                 rigidBody.velocity = transform.forward * speed;
-                Quaternion q = Quaternion.LookRotation(target.transform.position - transform.position);
-                transform.rotation = Quaternion.Slerp(transform.rotation, q, Time.deltaTime * 3f);
+                Quaternion q = Quaternion.LookRotation(target.transform.position - transform.position); // 목적 회전 방향
+                transform.rotation = Quaternion.Slerp(transform.rotation, q, Time.deltaTime * 3f); // 부드러운 회전
                 //transform.position = Vector3.LerpUnclamped(transform.position, target.transform.position, speed * Time.deltaTime / distance);
                 //direction = (target.transform.position - transform.position).normalized;
                 //transform.position += direction * speed * Time.deltaTime;
@@ -54,19 +54,19 @@ public class Missile : MonoBehaviour
     }
     private void DestroyMissile()
     {
-        GameObject obj = Instantiate(GameManager.Instance._Effect.GetExplosion(), transform.position, transform.rotation);
-        body.SetActive(false);
+        GameObject obj = Instantiate(GameManager.Instance._Effect.GetExplosion(), transform.position, transform.rotation); // 폭파
+        body.SetActive(false); // 미사일을 비활성화(카메라의 생존을 2초동안 보호)
         Destroy(this.gameObject, 2f);
     }
     public void SetTarget(int index)
     {
-        if(index > GameManager.Instance.GetTargetList().Count - 1)
+        if(index > GameManager.Instance.GetTargetList().Count - 1) // 인덱스가 리스트의 후보 갯수를 벗어나면
         {
-            target = null;
+            target = null; // 타겟 없음
         }
         else
         {
-            target = GameManager.Instance.GetTargetList()[index].gameObject;
+            target = GameManager.Instance.GetTargetList()[index].gameObject; // 해당 인덱스의 오브젝트로 타겟을 설정
         }
     }
     private void OnCollisionEnter(Collision other) // 충돌 시 파괴
@@ -74,6 +74,7 @@ public class Missile : MonoBehaviour
         if(other.gameObject.tag != "Player" && other.gameObject.tag != "Missile")
         {
             Instantiate(GameManager.Instance._Effect.GetExplosion(), transform.position, transform.rotation);
+            this.GetComponent<CapsuleCollider>().enabled = false; // 콜라이더 비활성화 이중충돌 방지
             DestroyMissile();
         }
     }

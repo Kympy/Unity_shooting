@@ -117,8 +117,8 @@ public class UIManager : MonoBehaviour
     }
     public void UpdateHPbar() // 체력바 업데이트
     {
-        currentHP = GameManager.Instance._Player.GetHP();
-        HPbar.value = Mathf.Lerp(HPbar.value, currentHP, Time.deltaTime * 10f);
+        currentHP = GameManager.Instance._Player.GetHP(); // 현재 체력
+        HPbar.value = Mathf.Lerp(HPbar.value, currentHP, Time.deltaTime * 10f); // 부드럽게
     }
     public void GameOver() // 게임 오버 화면
     {
