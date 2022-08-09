@@ -4,12 +4,13 @@ using UnityEngine;
 
 public class Missile : MonoBehaviour
 {
-    private float speed = 200f;
+    private float speed = 175f;
     private GameObject target;
     private Rigidbody rigidBody;
     private float timer = 0f;
     //private Vector3 direction;
     private GameObject body; // 미사일 몸체
+    private float Accuracy = 2.2f; // 정확도
     //private float distance;
     private void Awake()
     {
@@ -20,10 +21,8 @@ public class Missile : MonoBehaviour
     }
     private void Start()
     {
-
-            //distance = Vector3.Distance(transform.position, target.transform.position);
-
-        Invoke("DestroyMissile", 6f); // 5초 후 자동 파괴
+        //distance = Vector3.Distance(transform.position, target.transform.position);
+        Invoke("DestroyMissile", 5.5f); // 일정 시간 후 자동 파괴
     }
     private void FixedUpdate()
     {
@@ -40,7 +39,7 @@ public class Missile : MonoBehaviour
             {
                 rigidBody.velocity = transform.forward * speed;
                 Quaternion q = Quaternion.LookRotation(target.transform.position - transform.position);
-                transform.rotation = Quaternion.Slerp(transform.rotation, q, Time.deltaTime * 3f);
+                transform.rotation = Quaternion.Slerp(transform.rotation, q, Time.deltaTime * Accuracy);
                 //transform.position = Vector3.LerpUnclamped(transform.position, target.transform.position, speed * Time.deltaTime / distance);
                 //direction = (target.transform.position - transform.position).normalized;
                 //transform.position += direction * speed * Time.deltaTime;
@@ -56,6 +55,7 @@ public class Missile : MonoBehaviour
     {
         GameObject obj = Instantiate(GameManager.Instance._Effect.GetExplosion(), transform.position, transform.rotation);
         body.SetActive(false);
+        GetComponent<TrailRenderer>().emitting = false;
         Destroy(this.gameObject, 2f);
     }
     public void SetTarget(int index)
@@ -73,7 +73,6 @@ public class Missile : MonoBehaviour
     {
         if(other.gameObject.tag != "Player" && other.gameObject.tag != "Missile")
         {
-            Instantiate(GameManager.Instance._Effect.GetExplosion(), transform.position, transform.rotation);
             DestroyMissile();
         }
     }

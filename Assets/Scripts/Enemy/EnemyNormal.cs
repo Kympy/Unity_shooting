@@ -107,7 +107,6 @@ public class EnemyNormal : Enemy
         //GameManager.Instance._EnemyPool.ReturnEnemy(this);
         GameManager.Instance.RemoveTargetList(this.gameObject); // 목록에서 제거
         GameManager.Instance._Player.ResetTargetIndex(); // 플레이어의 타겟 인덱스 0으로 초기화
-        Instantiate(GameManager.Instance._Effect.GetExplosion(), transform.position, transform.rotation); // 폭파 이펙트
         GameManager.Instance.SetScore(100); // 점수 획득
         Destroy(this.gameObject); // 파괴
         //rigidBody.useGravity = true;
@@ -125,6 +124,7 @@ public class EnemyNormal : Enemy
         }
         else if(other.gameObject.tag == "Player") // 플레이어 몸체와 충돌 시
         {
+            Instantiate(GameManager.Instance._Effect.GetExplosion(), transform.position, transform.rotation); // 폭파 이펙트
             DestroyEnemy(); // 즉사
         }
     }

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class CameraControl : MonoBehaviour
 {
-    public GameObject LookTarget;
+    private GameObject LookTarget;
     private float smoothSpeed = 10f;
     private Vector3 desiredPosition;
     private Quaternion desiredRotation;

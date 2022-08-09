@@ -127,7 +127,6 @@ public class Player : MonoBehaviour
         // ============================ 사격 모드 =========================== //
         if (!missileMode)
         {
-
             // ============================ 사격 이펙트 활성화 & 총알 생성 =========================== //
             muzzleFlash.SetActive(true);
             if (GunTimer > 0.2f)
@@ -155,7 +154,7 @@ public class Player : MonoBehaviour
     public void ShootMissile()
     {
         // ============================ 미사일 생성 & 미사일 타이머 초기화 =========================== //
-        if (missileTimer > 3f)
+        if (missileTimer > 5.5f)
         {
             GameObject obj = Instantiate(missile, FirePoint.transform.position, FirePoint.transform.rotation);
             obj.GetComponent<Missile>().SetTarget(targetIndex);
