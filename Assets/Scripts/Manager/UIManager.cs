@@ -62,7 +62,7 @@ public class UIManager : MonoBehaviour
     }
     public void TextSpeed() // 속도 표시
     {
-        speed.text = "SPEED : " + Mathf.Round((GameManager.Instance._Player.GetVelocity() * 50) * 10 / 10) + " km/s";
+        speed.text = "SPEED : " + GameManager.Instance._Player.GetVelocity() + " km/s";
         //Debug.Log(GameManager.Instance._Player.GetVelocity() * 50);
     }
     public void TextHeight() // 고도 표시

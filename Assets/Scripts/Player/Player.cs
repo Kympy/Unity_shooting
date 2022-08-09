@@ -14,7 +14,6 @@ public class Player : MonoBehaviour
     private Rigidbody rigidBody; // 리지드바디
     private Vector3 movement; // 이동 벡터
     private float speed; // 속도(이동을 위한)
-    private Vector3 lastPosition; // 마지막 위치
     private float velocity; // 진짜 속도
 
     // ========================================= 미사일 관련 ========================================= //
@@ -45,12 +44,11 @@ public class Player : MonoBehaviour
         //GameManager.Instance.InitGameManager();
         GameManager.Instance._UI.GameRestart();
         HP = 100.0f;
-        speed = 2000.0f;
+        speed = 1950.0f;
         missile = Resources.Load("Bullet/Missile") as GameObject;
     }
     void Start()
     {
-        lastPosition = transform.position; // 속도 계산을 위한 마지막 위치 저장
         ShootPoint = GameObject.Find("ShootPoint").gameObject;
         FirePoint = GameObject.Find("FirePoint").gameObject;
         rigidBody = GetComponent<Rigidbody>();
@@ -208,8 +206,7 @@ public class Player : MonoBehaviour
     }
     private void CalculateVelocity() // 속도계산
     {
-        velocity = (transform.position - lastPosition).magnitude / Time.deltaTime;
-        lastPosition = transform.position;
+        velocity = rigidBody.velocity.magnitude * 3.6f;
     }
     public float GetVelocity()
     {
