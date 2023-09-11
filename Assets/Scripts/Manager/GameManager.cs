@@ -40,7 +40,7 @@ public class GameManager : Singleton<GameManager>
     {
         if(SceneManager.GetActiveScene().buildIndex == 1) // 게임 씬이라면 업데이트
         {
-            _Input.OnUpdate();
+            _Input.UpdateIngameKey();
             _UI.TextSpeed();
             _UI.TextHeight();
             _UI.TextScore();

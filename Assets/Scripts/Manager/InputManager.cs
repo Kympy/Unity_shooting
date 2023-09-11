@@ -7,11 +7,11 @@ public class InputManager : MonoBehaviour
 {
     public Action KeyAction = null;
 
-    Dictionary<KeyCode, Action> keyDictionary;
+    private Dictionary<KeyCode, Action> ingameKeyDictionary;
 
     private void Start()
     {
-        keyDictionary = new Dictionary<KeyCode, Action>
+        ingameKeyDictionary = new Dictionary<KeyCode, Action>
         {
             { KeyCode.W, GameManager.Instance._Player.MoveFoward }, // 전진
             { KeyCode.D, GameManager.Instance._Player.MoveRight }, // 우회전
@@ -24,11 +24,11 @@ public class InputManager : MonoBehaviour
         };
         
     }
-    public void OnUpdate()
+    public void UpdateIngameKey()
     {
         if (Input.anyKey)
         {
-            foreach (var dic in keyDictionary)
+            foreach (var dic in ingameKeyDictionary)
             {
                 if (Input.GetKey(dic.Key))
                 {
