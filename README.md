@@ -6,4 +6,8 @@
 
 **Refactoring**
 1. Ingame, Outgame 처럼 게임 씬 마다 별도의 key dictionary 를 적용할 수 있도록 분리
-2. 
+2. Scene 이동을 GameManager 에서 통합 관리하도록 구조 변경
+3. 리소스 로드를 Addressable 방식으로 변경하고, Resource 관리 스크립트를 거쳐서 로드하도록 변경
+4. Awake() 에 몰려있는 초기화 작업을 별도의 Init() 함수로 분리하여 초기화 시점을 컨트롤 할 수 있게 변경
+5. 변수 네이밍 규칙 통일
+6. 자주 사용하는 유틸성 함수를 별도 클래스에 정의
