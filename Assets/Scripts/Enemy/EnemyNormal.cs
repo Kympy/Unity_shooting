@@ -39,7 +39,7 @@ public class EnemyNormal : Enemy
             screenPoint.x > 0 && screenPoint.x < 1 &&
             screenPoint.y > 0 && screenPoint.y < 1) // 시야에 들어오면
         {
-            if (Vector3.Distance(transform.position, GameManager.Instance._Player.transform.position) <= 1000.0f) // 1000 거리 안쪽에 있다면
+            if (Vector3.Distance(transform.position, GameManager.Instance.currentPlayer.transform.position) <= 1000.0f) // 1000 거리 안쪽에 있다면
             {
                 //Debug.Log(GameManager.Instance.GetTargetList().Count);
                 if (GameManager.Instance.GetTargetList().Contains(this.gameObject) == false) // 타겟 후보 목록에 없다면
@@ -57,10 +57,10 @@ public class EnemyNormal : Enemy
     // ==================================================== 이동 함수 ================================================= //
     public override void Move()
     {
-        if (Vector3.Distance(GameManager.Instance._Player.transform.position, transform.position) <= 200.0f)  // 사거리 이내라면 추격 시작
+        if (Vector3.Distance(GameManager.Instance.currentPlayer.transform.position, transform.position) <= 200.0f)  // 사거리 이내라면 추격 시작
         {
             rigidBody.velocity = transform.forward * speed;
-            direction = Quaternion.LookRotation(GameManager.Instance._Player.transform.position - transform.position);
+            direction = Quaternion.LookRotation(GameManager.Instance.currentPlayer.transform.position - transform.position);
             transform.rotation = Quaternion.Slerp(transform.rotation, direction, Time.deltaTime * 3f);
         }
         else // 플레이어가 사거리에 없다면 자유 이동
@@ -106,7 +106,7 @@ public class EnemyNormal : Enemy
     {
         //GameManager.Instance._EnemyPool.ReturnEnemy(this);
         GameManager.Instance.RemoveTargetList(this.gameObject); // 목록에서 제거
-        GameManager.Instance._Player.ResetTargetIndex(); // 플레이어의 타겟 인덱스 0으로 초기화
+        GameManager.Instance.currentPlayer.ResetTargetIndex(); // 플레이어의 타겟 인덱스 0으로 초기화
         GameManager.Instance.SetScore(100); // 점수 획득
         Destroy(this.gameObject); // 파괴
         //rigidBody.useGravity = true;

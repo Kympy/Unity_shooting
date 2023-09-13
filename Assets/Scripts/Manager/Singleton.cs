@@ -1,39 +1,43 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 
-public class Singleton<T> : MonoBehaviour where T : class, new()
+public class Singleton<T> : MonoBehaviour where T : MonoBehaviour
 {
-    private static volatile T _instance = null;
-    private static object _lock = new object();
-	private static bool _isShuttingDown = false;
-    public static T Instance
+    private static volatile T instance = null;
+    private static object lockObject = new object();
+	private static bool isShuttingDown = false;
+	public static T Instance
     {
 		get
 		{
-			//Debug.Log($"##MonoBehaviourSingleton : " + typeof(T).ToString());
-			if (_isShuttingDown) return null;
-			if (_instance == null)
+			if (isShuttingDown == true) return null;
+
+			if (instance == null)
 			{
-				// find
-				_instance = GameObject.FindObjectOfType(typeof(T)) as T; // 이미 있으면 가져오기
-				if (_instance == null)
+				instance = FindObjectOfType(typeof(T)) as T; // 이미 있으면 가져오기
+				if (instance == null)
 				{
-					lock(_lock)
+					lock(lockObject)
                     {
 						// Create
 						GameObject obj = new GameObject(typeof(T).ToString(), typeof(T));
-						_instance = obj.GetComponent<T>();
-						DontDestroyOnLoad(obj);
-						//_instance = new GameObject(typeof(T).ToString(), typeof(T)).GetComponent<T>();
-						if (_instance == null)
+						instance = obj.GetComponent<T>();
+						if (instance == null)
 						{
-							Debug.LogError("##[Error]MonoBehaviourSingleton Instance Init ERROR - " + typeof(T).ToString());
+							Debug.LogError($"Get singleton instance ERROR - {typeof(T)}");
 						}
 					}
 				}
 			}
-			return _instance;
+			return instance;
 		}
+	}
+
+	protected virtual void Awake()
+	{
+		instance = this as T;
+		DontDestroyOnLoad(this);
 	}
 }

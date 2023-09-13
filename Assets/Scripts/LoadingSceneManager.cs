@@ -6,32 +6,41 @@ using UnityEngine.UI;
 
 public class LoadingSceneManager : MonoBehaviour
 {
-    private static int sceneIndex = 1;
+    private static int sceneIndex = 0;
     private float timer = 0f;
     public Image progressBar;
+    // 로딩 비동기 작업
+    private AsyncOperation loadingOperation = null;
+    public bool IsFinished
+    {
+        get
+        {
+            return loadingOperation.isDone;
+        }
+    }
 
     private void Start()
     {
         StartCoroutine(Loading());
     }
-    public static void LoadSceneNumber(int index)
+    public static void LoadSceneNumber(int targetSceneIndex)
     {
-        sceneIndex = index;
-        SceneManager.LoadScene(2); // 로딩 씬 호출
+        sceneIndex = targetSceneIndex;
+        SceneManager.LoadScene(targetSceneIndex); // 로딩 씬 호출
     }
-    IEnumerator Loading()
+    private IEnumerator Loading()
     {
         yield return null;
-        AsyncOperation loadingOp = SceneManager.LoadSceneAsync(sceneIndex);
-        loadingOp.allowSceneActivation = false;
+		loadingOperation = SceneManager.LoadSceneAsync(sceneIndex);
+		loadingOperation.allowSceneActivation = false;
 
-        while(loadingOp.isDone == false)
+        while(loadingOperation.isDone == false)
         {
             timer += Time.deltaTime;
-            if(loadingOp.progress < 0.9f)
+            if(loadingOperation.progress < 0.9f)
             {
-                progressBar.fillAmount = Mathf.Lerp(progressBar.fillAmount, loadingOp.progress, timer);
-                if(progressBar.fillAmount >= loadingOp.progress)
+                progressBar.fillAmount = Mathf.Lerp(progressBar.fillAmount, loadingOperation.progress, timer);
+                if(progressBar.fillAmount >= loadingOperation.progress)
                 {
                     timer = 0f;
                 }
@@ -41,7 +50,7 @@ public class LoadingSceneManager : MonoBehaviour
                 progressBar.fillAmount = Mathf.Lerp(progressBar.fillAmount, 1f, timer);
                 if(progressBar.fillAmount >= 1.0f)
                 {
-                    loadingOp.allowSceneActivation = true;
+					loadingOperation.allowSceneActivation = true;
                     yield break;
                 }
             }

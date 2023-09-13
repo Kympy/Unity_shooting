@@ -10,6 +10,6 @@ public class Spawn : MonoBehaviour
     {
         playerCharacter = Resources.Load("Player/PlayerCharacter") as GameObject;
         Instantiate(playerCharacter, new Vector3(0, 600, 0), transform.rotation);
-        GameManager.Instance._Player = playerCharacter.GetComponent<Player>();
+        GameManager.Instance.currentPlayer = playerCharacter.GetComponent<Player>();
     }
 }

@@ -1,0 +1,85 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: Default Local Group
+  m_EditorClassIdentifier: 
+  m_GroupName: Default Local Group
+  m_Data:
+    m_SerializedData: []
+  m_GUID: 3aa4a0922c2e4b247a4767fa265b3d17
+  m_SerializeEntries:
+  - m_GUID: 4e744fee79a3038489618e5f86f80aea
+    m_Address: Assets/Resources_moved/UI/Title.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 7a705c43a6f8b6c49a2717be4e5638e6
+    m_Address: Assets/Resources_moved/UI/Loading.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: f78fbeb853c92d84494c91b9db4d4491
+    m_Address: Player/PlayerCharacter
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: a6a615bbd13f79246955dd4e2d5ebd7c
+    m_Address: Player/Exhaust Outlet
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 07df040c1868edb4aa27bb97a56eb2ec
+    m_Address: Enemy/EnemyNormal
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 779aa8c25fbd0e1488637639c9fff976
+    m_Address: Effect/Explosion
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 10b58532136c45046841ace3af1cc56b
+    m_Address: Bullet/Missile
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: f29a85726c89d3c46a6be2135c14166e
+    m_Address: Bullet/PlayerBullet
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 1b98943542263d94ea322b52c660f6f6
+    m_Address: Bullet/Camera
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 4255caa7e33b4c8468959fbe1b5d4858
+    m_Address: Assets/Resources_moved/UI/CrossHair.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: dde2ee69a3a55fa498235a69902094b4
+    m_Address: Assets/Resources_moved/UI/GameInfo.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: daca35297d3044842a78657b513c6d81
+    m_Address: Assets/Resources_moved/UI/GameResult.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: 6b5fd727a64952e4fafff41e5e958602, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: c75feffd8a24c0e4db231feabed2b1bc, type: 2}
+    - {fileID: 11400000, guid: b4eed504b8abf944bb9db6989849a1a1, type: 2}

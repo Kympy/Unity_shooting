@@ -58,24 +58,38 @@
     <Analyzer Include="C:\Program Files\Unity\Hub\Editor\2022.3.8f1\Editor\Data\Tools\Unity.SourceGenerators\Unity.Properties.SourceGenerator.dll" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\Scripts\UI\UILoading.cs" />
     <Compile Include="Assets\Scripts\Enemy\EnemyNormal.cs" />
+    <Compile Include="Assets\Scripts\Enum\AttackMode.cs" />
+    <Compile Include="Assets\Scripts\SceneObjects\IngameSceneObject.cs" />
     <Compile Include="Assets\Scripts\Manager\UIManager.cs" />
     <Compile Include="Assets\Scripts\Bullets\Bullet.cs" />
-    <Compile Include="Assets\Scripts\Button.cs" />
+    <Compile Include="Assets\Scripts\Enum\UILayer.cs" />
     <Compile Include="Assets\Scripts\Player\Player.cs" />
     <Compile Include="Assets\Scripts\Bullets\Destory.cs" />
     <Compile Include="Assets\Scripts\Bullets\MissileCamera.cs" />
     <Compile Include="Assets\Scripts\Bullets\BulletPool.cs" />
     <Compile Include="Assets\Scripts\Bullets\EnemyPool.cs" />
     <Compile Include="Assets\Scripts\Manager\InputManager.cs" />
+    <Compile Include="Assets\Scripts\Enum\ManagedSceneIndex.cs" />
     <Compile Include="Assets\Scripts\Player\Spawn.cs" />
+    <Compile Include="Assets\Scripts\SceneObjects\TitleSceneObject.cs" />
     <Compile Include="Assets\Scripts\Bullets\Missile.cs" />
     <Compile Include="Assets\Scripts\Enemy\Enemy.cs" />
+    <Compile Include="Assets\Scripts\UI\UITitle.cs" />
+    <Compile Include="Assets\Scripts\UI\UIGameResult.cs" />
+    <Compile Include="Assets\Scripts\IInitialize.cs" />
     <Compile Include="Assets\Scripts\CameraControl.cs" />
     <Compile Include="Assets\Scripts\Manager\EffectManager.cs" />
+    <Compile Include="Assets\Scripts\UI\UICrossHair.cs" />
+    <Compile Include="Assets\Scripts\SceneObjects\SceneObject.cs" />
     <Compile Include="Assets\Scripts\Manager\GameManager.cs" />
+    <Compile Include="Assets\Scripts\UtilFunction.cs" />
+    <Compile Include="Assets\Scripts\UI\UIGameInfo.cs" />
     <Compile Include="Assets\Scripts\LoadingSceneManager.cs" />
     <Compile Include="Assets\Scripts\Manager\Singleton.cs" />
+    <Compile Include="Assets\Scripts\UI\UIBase.cs" />
+    <Compile Include="Assets\Scripts\Manager\ResourceManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
@@ -732,6 +746,10 @@
       <Project>{EE7ADE81-2FFB-A989-33F4-9EC98D4E6FD3}</Project>
       <Name>Unity.VisualScripting.SettingsProvider.Editor</Name>
     </ProjectReference>
+    <ProjectReference Include="Unity.Addressables.Editor.csproj">
+      <Project>{07DE8DE9-D366-9B12-C2CC-65165417663B}</Project>
+      <Name>Unity.Addressables.Editor</Name>
+    </ProjectReference>
     <ProjectReference Include="Unity.AI.Navigation.csproj">
       <Project>{B9F60A3E-0661-AD15-BB71-E6D7115A97E9}</Project>
       <Name>Unity.AI.Navigation</Name>
@@ -744,9 +762,17 @@
       <Project>{A6DEF915-F28D-84BB-FBD0-017F39743427}</Project>
       <Name>Unity.AI.Navigation.Updater</Name>
     </ProjectReference>
+    <ProjectReference Include="Unity.ResourceManager.csproj">
+      <Project>{B929662A-8D72-3F20-EEC7-32E9A725C6E3}</Project>
+      <Name>Unity.ResourceManager</Name>
+    </ProjectReference>
     <ProjectReference Include="Unity.VisualScripting.State.Editor.csproj">
       <Project>{D9F2FDA7-A0E9-492E-BD1F-66EC9AE8FDFF}</Project>
       <Name>Unity.VisualScripting.State.Editor</Name>
+    </ProjectReference>
+    <ProjectReference Include="Unity.ScriptableBuildPipeline.csproj">
+      <Project>{7A618358-721B-B464-C514-E784178C8E7E}</Project>
+      <Name>Unity.ScriptableBuildPipeline</Name>
     </ProjectReference>
     <ProjectReference Include="Unity.Timeline.Editor.csproj">
       <Project>{023FBF75-E386-F3E2-8B53-896B97302361}</Project>
@@ -796,13 +822,17 @@
       <Project>{7AD9CDCE-413B-A73F-3D5D-8ECDE6580CB3}</Project>
       <Name>Unity.AI.Navigation.Editor.ConversionSystem</Name>
     </ProjectReference>
-    <ProjectReference Include="Unity.VSCode.Editor.csproj">
-      <Project>{6B780567-DB4D-5DCF-6AFF-C6ADF3350E94}</Project>
-      <Name>Unity.VSCode.Editor</Name>
+    <ProjectReference Include="Unity.ScriptableBuildPipeline.Editor.csproj">
+      <Project>{EF952D20-7868-30F2-23E3-987DB078039B}</Project>
+      <Name>Unity.ScriptableBuildPipeline.Editor</Name>
     </ProjectReference>
     <ProjectReference Include="UnityEngine.UI.csproj">
       <Project>{8E83EE95-7993-8C9A-8333-DBBBF6DE69ED}</Project>
       <Name>UnityEngine.UI</Name>
+    </ProjectReference>
+    <ProjectReference Include="Unity.VSCode.Editor.csproj">
+      <Project>{6B780567-DB4D-5DCF-6AFF-C6ADF3350E94}</Project>
+      <Name>Unity.VSCode.Editor</Name>
     </ProjectReference>
     <ProjectReference Include="Unity.VisualScripting.Flow.csproj">
       <Project>{BBCD2102-EACC-1116-BD9E-D593BD904930}</Project>
@@ -811,6 +841,10 @@
     <ProjectReference Include="Unity.VisualScripting.Flow.Editor.csproj">
       <Project>{8566AA0F-53B0-9EDD-2ED1-52DA3B69C4FC}</Project>
       <Name>Unity.VisualScripting.Flow.Editor</Name>
+    </ProjectReference>
+    <ProjectReference Include="Unity.Addressables.csproj">
+      <Project>{7A740874-21E8-9FF5-5F44-6A6A650F7280}</Project>
+      <Name>Unity.Addressables</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

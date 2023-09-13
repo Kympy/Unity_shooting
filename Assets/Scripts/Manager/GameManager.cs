@@ -1,13 +1,15 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-
-public class GameManager : Singleton<GameManager>
+using static UtilFunction;
+public class GameManager : Singleton<GameManager>, IInitialize
 {
-    public Player _Player;      // ======= 플레이어
-    public InputManager _Input;
-    public UIManager _UI;
+    public Player currentPlayer;      // ======= 플레이어
+    public UIManager UI;
     public EffectManager _Effect;
     public BulletPool _BulletPool;
 
@@ -15,41 +17,36 @@ public class GameManager : Singleton<GameManager>
     private int score = 0; // 게임 점수
     private bool GameOver = false; // 게임 오버
 
-    private void Awake()
+    public static Camera mainCamera = null;
+    // 현재 씬
+    private ManagedSceneIndex currentSceneIndex = ManagedSceneIndex.Title;
+    public bool IsInitialized { get; private set; } = false;
+    public async Task Initialize()
     {
-        gameObject.AddComponent<InputManager>(); // 생성 시 컴포넌트 부착
-        gameObject.AddComponent<UIManager>();
-        gameObject.AddComponent<EffectManager>();
-        gameObject.AddComponent<BulletPool>();
-
-        _Input = GetComponent<InputManager>(); // 정보가져옴
-        _UI = GetComponent<UIManager>();
-        _Effect = GetComponent<EffectManager>();
-        _BulletPool = GetComponent<BulletPool>();
-
-        Time.timeScale = 1f;
-        GameOver = false;
-    }
-    private void Start()
-    {
-        if (SceneManager.GetActiveScene().buildIndex == 1) Cursor.visible = false;
-        _Player = FindObjectOfType<Player>();
-        _Player.ResetHP();
-    }
-    private void Update()
-    {
-        if(SceneManager.GetActiveScene().buildIndex == 1) // 게임 씬이라면 업데이트
+        try
         {
-            _Input.UpdateIngameKey();
-            _UI.TextSpeed();
-            _UI.TextHeight();
-            _UI.TextScore();
-            _UI.UpdateHPbar();
-            CheckScore();
+		    // 기본 하위 매니저 생성
+		    await InitDefaultManager();
         }
-        else Cursor.visible = true;
-        //Debug.Log("Target List Count : " + Target.Count);
+        catch (Exception ex) 
+        { 
+            Debug.LogError(ex.ToString());
+            IsInitialized = false; 
+        }
+        IsInitialized = true;
+	}
+    protected override async void Awake()
+    {
+        base.Awake();
+        UtilFunction.PlayTime();
+        await Initialize();
+        LoadScene((ManagedSceneIndex)SceneManager.GetActiveScene().buildIndex);
     }
+    private async Task InitDefaultManager()
+    {
+        UI = AddAndGetComponent<UIManager>(dontDestroyOnLoad: true);
+        await UI.Initialize();
+	}
     public int GetScore()
     {
         return score;
@@ -78,13 +75,6 @@ public class GameManager : Singleton<GameManager>
     {
         Target.Remove(target);
     }
-    public void InitGameManager()
-    {
-        _Input = GetComponent<InputManager>();
-        _UI = GetComponent<UIManager>();
-        _Effect = GetComponent<EffectManager>();
-        _BulletPool = GetComponent<BulletPool>();
-    }
     public void ExitGame()
     {
         Application.Quit();
@@ -93,7 +83,68 @@ public class GameManager : Singleton<GameManager>
     {
         if(score >= 2000)
         {
-            _UI.GameWin();
+            UI.GameWin();
         }
     }
+    public SceneObject CurrentSceneObject { get; private set; } = null;
+    public T GetCurrentSceneObject<T>() where T : SceneObject
+    {
+        return CurrentSceneObject as T;
+    }
+    public async void LoadScene(ManagedSceneIndex targetScene, Action loadFinishAction = null)
+    {
+        if ((int)targetScene == SceneManager.GetActiveScene().buildIndex)
+        {
+            CreateSceneObject(targetScene);
+            return;
+        }
+        UI.ToggleLoadingUI(true);
+
+        AsyncOperation loadingHandle = SceneManager.LoadSceneAsync((int)targetScene);
+        loadingHandle.allowSceneActivation = false;
+
+        while(loadingHandle.isDone == false)
+        {
+            // Yield() 가 맞지만 로딩을 그럴듯하게 하기 위해 의도적으로 딜레이를 줌.
+            await Task.Delay(100);
+            // await Task.Yield();
+            UI.NotifyLoadingProgressValue(loadingHandle.progress);
+            if (loadingHandle.progress >= 0.9f)
+            {
+                loadingHandle.allowSceneActivation = true;
+                break;
+            }
+        }
+        while(SceneManager.GetActiveScene().buildIndex != (int)targetScene)
+        {
+            //Debug.Log(SceneManager.GetActiveScene().buildIndex);
+            await Task.Yield();
+        }
+		//Debug.Log(SceneManager.GetActiveScene().buildIndex);
+        CreateSceneObject(targetScene);
+        currentSceneIndex = targetScene;
+		loadFinishAction?.Invoke();
+	}
+    private void CreateSceneObject(ManagedSceneIndex targetScene)
+    {
+		if (CurrentSceneObject != null)
+		{
+			UtilFunction.DestoryIfNotNull(CurrentSceneObject.gameObject);
+		}
+		switch (targetScene)
+		{
+			default:
+			case ManagedSceneIndex.Title:
+				{
+					CurrentSceneObject = new GameObject(typeof(TitleSceneObject).Name, typeof(TitleSceneObject)).GetComponent<TitleSceneObject>();
+					break;
+				}
+			case ManagedSceneIndex.Ingame:
+				{
+					CurrentSceneObject = new GameObject(typeof(IngameSceneObject).Name, typeof(IngameSceneObject)).GetComponent<IngameSceneObject>();
+					break;
+				}
+		}
+		CurrentSceneObject.InitScene();
+	}
 }

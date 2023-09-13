@@ -8,6 +8,7 @@ public class Player : MonoBehaviour
 
     private float HP; // =============== 내구도
     private bool isDead = false; // 사망 여부(폭발 이펙트 재생을 1번만 하기위해 필요함)
+    private AttackMode currentAttackMode = AttackMode.Gun;
 
     // ========================================= 이동 관련 ========================================= //
 
@@ -21,54 +22,118 @@ public class Player : MonoBehaviour
     private bool missileMode = false; // 미사일 모드 on/off
     private float missileTimer = 5f; // 미사일 발사 간격 타이머
     private GameObject missile;     // 미사일 오브젝트
-    private GameObject FirePoint; // 미사일 발사 지점
+    [SerializeField] private GameObject FirePoint; // 미사일 발사 지점
     private int targetIndex = 0;
 
     // ========================================= 머신건 관련 ========================================= //
 
     private float GunTimer = 0f; // 총 발사 간격 타이머
-    private GameObject muzzleFlash; // 총 발사 이펙트 오브젝트
-    private GameObject ShootPoint; // 머신건 발사 지점
+    [SerializeField] private GameObject muzzleFlash; // 총 발사 이펙트 오브젝트
+    [SerializeField] private GameObject ShootPoint; // 머신건 발사 지점
     private const float rayDistance = 1500.0f; // 레이 사거리
     private RaycastHit hit; // 레이 맞은 곳
 
     // ========================================= 기타 ========================================= //
 
-    private GameObject exhaustOutlet_L; // 배출구 오브젝트
-    private GameObject exhaustOutlet_R; // 배출구 오브젝트
+    [System.Serializable]
+    public class ExhaustOutLet
+    {
+        public GameObject left;
+        public GameObject right;
+        public void Toggle(bool isOn)
+        {
+            left.SetActive(isOn);
+            right.SetActive(isOn);
+        }
+    }
+	// 배출구 오브젝트
+	[SerializeField] private ExhaustOutLet exhaustOutLet = new ExhaustOutLet();
 
     private void Awake()
     {
-        Time.timeScale = 1f;
-        //GameManager.Instance._Player = GetComponent<Player>();
-        //GameManager.Instance.InitGameManager();
-        GameManager.Instance._UI.GameRestart();
+		rigidBody = GetComponent<Rigidbody>();
         HP = 100.0f;
         speed = 1950.0f;
-        missile = Resources.Load("Bullet/Missile") as GameObject;
     }
-    void Start()
+    private void Start()
     {
-        ShootPoint = GameObject.Find("ShootPoint").gameObject;
-        FirePoint = GameObject.Find("FirePoint").gameObject;
-        rigidBody = GetComponent<Rigidbody>();
-        muzzleFlash = GameObject.FindGameObjectWithTag("Effect").gameObject;
         muzzleFlash.SetActive(false);
-        exhaustOutlet_L = GameObject.FindGameObjectWithTag("ParticleL").gameObject;
-        exhaustOutlet_L.SetActive(false);
-        exhaustOutlet_R = GameObject.FindGameObjectWithTag("ParticleR").gameObject;
-        exhaustOutlet_R.SetActive(false);
-        //GameManager.Instance._Input.KeyAction -= PlayerControl;
-        //GameManager.Instance._Input.KeyAction += PlayerControl;
-    }
+        exhaustOutLet.Toggle(false);
+	}
     private void Update()
     {
+        if (Input.GetKey(KeyCode.W))
+        {
+            MoveFoward();
+        }
+        if (Input.GetKey(KeyCode.D))
+        {
+            MoveRight();
+        }
+        if (Input.GetKey(KeyCode.A))
+        {
+            MoveLeft();
+        }
+        if (Input.GetKey(KeyCode.Keypad8))
+        {
+            TiltForward();
+        }
+        if (Input.GetKey(KeyCode.Keypad5))
+        {
+            TiltBackward();
+        }
+        if (Input.GetKey(KeyCode.Keypad4))
+        {
+            TiltLeft();
+        }
+        if (Input.GetKey(KeyCode.Keypad6))
+        {
+            TiltRight();
+        }
+        if (Input.GetKey(KeyCode.Space))
+        {
+            Shoot();
+        }
+		if (Input.GetKeyUp(KeyCode.Space)) // 사격
+		{
+			ReleaseGunShoot();
+		}
+		if (Input.GetKeyUp(KeyCode.W))
+		{
+			exhaustOutLet.Toggle(false); // W 릴리즈 시에 추진기 비활성화
+		}
+
+        if (Input.GetKeyDown(KeyCode.R)) // 모드 변경
+        {
+            ChangeAttackMode();
+        }
+
+        else if (Input.GetKeyDown(KeyCode.Space) && GameManager.Instance.GetGameOver()) // 게임 오버 시 재시작
+		{
+			ResetPlayer(); // 플레이어 초기화
+            return;
+		}
+		else if (Input.GetKeyDown(KeyCode.E)) // 다음 타겟 변경
+		{
+			NextTargetIndex();
+		}
+		else if (Input.GetKeyDown(KeyCode.Q)) // 이전 타겟 변경
+		{
+			BeforeTargetIndex();
+		}
+		else if (Input.GetKeyDown(KeyCode.F)) // 자살
+		{
+			DecreaseHP(10f);
+		}
+		return;
         LockTarget(); // 타겟 고정
     }
     private void FixedUpdate()
     {
         CalculateVelocity();
-        Dead();
+        CalculateHeight();
+
+		Dead();
         GunTimer += Time.deltaTime;
         missileTimer += Time.deltaTime;
     }
@@ -90,9 +155,8 @@ public class Player : MonoBehaviour
     }
     public void MoveFoward() // 전진
     {
-        exhaustOutlet_L.SetActive(true);
-        exhaustOutlet_R.SetActive(true);
-        rigidBody.AddForce(transform.forward * speed * Time.deltaTime + transform.up, ForceMode.Acceleration);
+        exhaustOutLet.Toggle(true);
+		rigidBody.AddForce(transform.forward * speed * Time.deltaTime + transform.up, ForceMode.Acceleration);
         //transform.position += transform.forward * Time.deltaTime * speed;
     }
     public void TiltForward() // 앞으로 기울기
@@ -162,17 +226,20 @@ public class Player : MonoBehaviour
     // ============================ 사격 & 미사일 모드 변경 =========================== //
     public void ChangeAttackMode() // 공격모드 변경
     {
-        missileMode = !missileMode;
-        GameManager.Instance._UI.TextAttackMode();
+		int attackMode = (int)currentAttackMode + 1;
+		if (attackMode > (int)AttackMode.Missile)
+		{
+			attackMode = 0;
+		}
+		currentAttackMode = (AttackMode)attackMode;
+
+        GameManager.Instance.GetCurrentSceneObject<IngameSceneObject>().NotifyChangedAttackMode(currentAttackMode);
+		//missileMode = !missileMode;
+        //GameManager.Instance.UI.TextAttackMode();
     }
-    public void ShootKeyUp() // 사격 종료 시 muzzle 이펙트 비활성화
+    public void ReleaseGunShoot() // 사격 종료 시 muzzle 이펙트 비활성화
     {
         muzzleFlash.SetActive(false);
-    }
-    public void WKeyUp() // 전진 키 미 입력 시 배출구 이펙트 비활성화
-    {
-        exhaustOutlet_L.SetActive(false);
-        exhaustOutlet_R.SetActive(false);
     }
     public bool GetAttackMode() // 현재 공격모드 가져오기
     {
@@ -180,7 +247,7 @@ public class Player : MonoBehaviour
     }
     public void LockTarget() // 미사일 모드 시 적에게 타겟 고정
     {
-        GameManager.Instance._UI.FocusTarget(targetIndex);
+        GameManager.Instance.UI.FocusTarget(targetIndex);
     }
     public void NextTargetIndex() // E 키
     {
@@ -207,11 +274,13 @@ public class Player : MonoBehaviour
     private void CalculateVelocity() // 속도계산
     {
         velocity = rigidBody.velocity.magnitude * 3.6f;
+        GameManager.Instance.GetCurrentSceneObject<IngameSceneObject>().NotifyChangedVelocity(velocity);
     }
-    public float GetVelocity()
+    private void CalculateHeight()
     {
-        return velocity;
-    }
+        float height = Mathf.Round(transform.position.y * 100) / 100;
+		GameManager.Instance.GetCurrentSceneObject<IngameSceneObject>().NotifyChangedHeight(height);
+	}
     public float GetHP()
     {
         return HP;
@@ -236,30 +305,30 @@ public class Player : MonoBehaviour
         if(HP <= 0f && isDead == false)
         {
             Instantiate(GameManager.Instance._Effect.GetExplosion(), transform.position, transform.rotation);
-            GameManager.Instance._UI.GameOver();
+            GameManager.Instance.UI.GameOver();
             Debug.Log("GameOver");
             isDead = true; // 무한 루프 방지
         }
     }
     private void OnCollisionEnter(Collision collision) // 충돌 시
     {
-        if(collision.gameObject.tag == "Terrain") // 지형 충돌
+        if(collision.gameObject.CompareTag("Terrain")) // 지형 충돌
         {
-            Instantiate(GameManager.Instance._Effect.GetExplosion(), transform.position, transform.rotation);
-            GameManager.Instance._UI.GameOver();
-            Debug.Log("GameOver");
+            GameManager.Instance.GetCurrentSceneObject<IngameSceneObject>().CreateExplosionEffectAtPoint(transform);
+            //GameManager.Instance.UI.GameOver();
+            //Debug.Log("GameOver");
         }
-        else if(collision.gameObject.tag == "Enemy") // 적 충돌
+        else if(collision.gameObject.CompareTag("Enemy")) // 적 충돌
         {
-            Debug.Log("Enemy Collision");
+            //Debug.Log("Enemy Collision");
             DecreaseHP(10f);
-            Instantiate(GameManager.Instance._Effect.GetExplosion(), transform.position, transform.rotation);
-        }
+			GameManager.Instance.GetCurrentSceneObject<IngameSceneObject>().CreateExplosionEffectAtPoint(transform);
+		}
     }
     public void ResetPlayer() // 플레이어 리셋
     {
         rigidBody.isKinematic = true;
-        GameManager.Instance._UI.GameRestart();
+        GameManager.Instance.UI.GameRestart();
         transform.position = new Vector3(0, 600, 0);
         transform.rotation = Quaternion.Euler(0, 0, 0);
         HP = 100.0f;
