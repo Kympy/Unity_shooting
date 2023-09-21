@@ -54,43 +54,43 @@ public class UIManager : MonoBehaviour, IInitialize
         currentHP = GameManager.Instance.currentPlayer.GetHP();
     }
     // ============================== 공격 모드 텍스트 UI ============================ //
-    public void TextAttackMode()
-    {
-        if(GameManager.Instance.currentPlayer.GetAttackMode()) // 미사일 모드라면
-        {
-            attackMode.text = "MISSILE MODE";
-            MissileCrossHair.SetActive(true);
-            GunCrossHair.SetActive(false);
-        }
-        else
-        {
-            attackMode.text = "MACHINE GUN MODE";
-            MissileCrossHair.SetActive(false);
-            GunCrossHair.SetActive(true);
-        }
-    }
-    public void TextHeight() // 고도 표시
-    {
-        if(GameManager.Instance.currentPlayer.transform.position.y < 150.0f)
-        {
-            height.color = Color.red;
-            height.text = "HEIGHT : " + Mathf.Round(GameManager.Instance.currentPlayer.transform.position.y * 100) / 100 + " m";
-        }
-        else if(GameManager.Instance.currentPlayer.transform.position.y < 230.0f)
-        {
-            height.color = Color.yellow;
-            height.text = "HEIGHT : " + Mathf.Round(GameManager.Instance.currentPlayer.transform.position.y * 100) / 100 + " m";
-        }
-        else
-        {
-            height.color = basicColor;
-            height.text = "HEIGHT : " + Mathf.Round(GameManager.Instance.currentPlayer.transform.position.y * 100) / 100 + " m";
-        }
-    }
-    public void TextScore()
-    {
-        score.text = "SCORE : " + GameManager.Instance.GetScore();
-    }
+    //public void TextAttackMode()
+    //{
+    //    if(GameManager.Instance.currentPlayer.GetAttackMode()) // 미사일 모드라면
+    //    {
+    //        attackMode.text = "MISSILE MODE";
+    //        MissileCrossHair.SetActive(true);
+    //        GunCrossHair.SetActive(false);
+    //    }
+    //    else
+    //    {
+    //        attackMode.text = "MACHINE GUN MODE";
+    //        MissileCrossHair.SetActive(false);
+    //        GunCrossHair.SetActive(true);
+    //    }
+    //}
+    //public void TextHeight() // 고도 표시
+    //{
+    //    if(GameManager.Instance.currentPlayer.transform.position.y < 150.0f)
+    //    {
+    //        height.color = Color.red;
+    //        height.text = "HEIGHT : " + Mathf.Round(GameManager.Instance.currentPlayer.transform.position.y * 100) / 100 + " m";
+    //    }
+    //    else if(GameManager.Instance.currentPlayer.transform.position.y < 230.0f)
+    //    {
+    //        height.color = Color.yellow;
+    //        height.text = "HEIGHT : " + Mathf.Round(GameManager.Instance.currentPlayer.transform.position.y * 100) / 100 + " m";
+    //    }
+    //    else
+    //    {
+    //        height.color = basicColor;
+    //        height.text = "HEIGHT : " + Mathf.Round(GameManager.Instance.currentPlayer.transform.position.y * 100) / 100 + " m";
+    //    }
+    //}
+    //public void TextScore()
+    //{
+    //    score.text = "SCORE : " + GameManager.Instance.GetScore();
+    //}
     public void FocusTarget(int index) // 에임을 타겟에게 자동조준
     {
         if (GameManager.Instance.GetTargetList().Count > 0) // 조준할 적이 하나라도 있으면

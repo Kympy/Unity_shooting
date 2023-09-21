@@ -21,9 +21,9 @@ public class IngameSceneObject : SceneObject
 	public override void DestroyScene()
 	{
 		ReleaseIngameResources();
-		UtilFunction.DestoryIfNotNull(uiCrossHair.gameObject);
-		UtilFunction.DestoryIfNotNull(uiGameInfo.gameObject);
-		UtilFunction.DestoryIfNotNull(uiGameResult.gameObject);
+		UtilFunction.DestroyIfNotNull(uiCrossHair);
+		UtilFunction.DestroyIfNotNull(uiGameInfo);
+		UtilFunction.DestroyIfNotNull(uiGameResult);
 	}
 	private Camera ingameCamera = null;
 	private CameraControl ingameCameraControl = null;
@@ -44,6 +44,8 @@ public class IngameSceneObject : SceneObject
 		ingameCameraControl.SetTarget(currentPlayer.transform);
 
 		GameManager.Instance.UI.ToggleLoadingUI(false);
+
+		await InitPool();
 	}
 	private UICrossHair uiCrossHair = null;
 	private UIGameInfo uiGameInfo = null;
@@ -97,5 +99,20 @@ public class IngameSceneObject : SceneObject
 		if (explosionPoint == null) return;
 
 		Instantiate(ExplosionEffect, explosionPoint.transform.position, explosionPoint.transform.rotation);
+	}
+	private int gameScore = 0;
+	public void AddScore(int value)
+	{
+		gameScore += value;
+	}
+	public void ResetScore()
+	{
+		gameScore = 0;
+	}
+	public GameObjectPool GameObjectPool { get; private set; } = null;
+	private async Task InitPool()
+	{
+		GameObjectPool = new GameObject(typeof(GameObjectPool).Name, typeof(GameObjectPool)).GetComponent<GameObjectPool>();
+		await GameObjectPool.CreateNewQueue(PoolObjectKey.Bullet);
 	}
 }

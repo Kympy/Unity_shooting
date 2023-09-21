@@ -11,7 +11,7 @@ public class GameManager : Singleton<GameManager>, IInitialize
     public Player currentPlayer;      // ======= 플레이어
     public UIManager UI;
     public EffectManager _Effect;
-    public BulletPool _BulletPool;
+    public GameObjectPool _BulletPool;
 
     public List<GameObject> Target = new List<GameObject>(); // 유도가 가능한 타겟 목록
     private int score = 0; // 게임 점수
@@ -129,7 +129,7 @@ public class GameManager : Singleton<GameManager>, IInitialize
     {
 		if (CurrentSceneObject != null)
 		{
-			UtilFunction.DestoryIfNotNull(CurrentSceneObject.gameObject);
+			UtilFunction.DestroyIfNotNull(CurrentSceneObject.gameObject);
 		}
 		switch (targetScene)
 		{

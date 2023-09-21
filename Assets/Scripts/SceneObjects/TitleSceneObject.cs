@@ -23,6 +23,6 @@ public class TitleSceneObject : SceneObject
 	}
 	public override void DestroyScene()
 	{
-		UtilFunction.DestoryIfNotNull(uiTitle.gameObject);
+		UtilFunction.DestroyIfNotNull(uiTitle.gameObject);
 	}
 }

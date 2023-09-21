@@ -23,13 +23,20 @@ public class UtilFunction
 		}
 		return result;
 	}
-	public static void DestoryIfNotNull(GameObject variable)
+	public static void DestroyIfNotNull(GameObject variable)
 	{
 		if (variable != null)
 		{
 			Object.Destroy(variable);
 		}
 	}
+	public static void DestroyIfNotNull<T>(T variable) where T : MonoBehaviour
+	{
+        if (variable != null)
+        {
+            Object.Destroy(variable.gameObject);
+        }
+    }
 	public static void PauseTime()
 	{
 		SetTimeScale(0);

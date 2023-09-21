@@ -61,6 +61,7 @@
     <Compile Include="Assets\Scripts\UI\UILoading.cs" />
     <Compile Include="Assets\Scripts\Enemy\EnemyNormal.cs" />
     <Compile Include="Assets\Scripts\Enum\AttackMode.cs" />
+    <Compile Include="Assets\Scripts\Bullets\GameObjectPool.cs" />
     <Compile Include="Assets\Scripts\SceneObjects\IngameSceneObject.cs" />
     <Compile Include="Assets\Scripts\Manager\UIManager.cs" />
     <Compile Include="Assets\Scripts\Bullets\Bullet.cs" />
@@ -68,11 +69,11 @@
     <Compile Include="Assets\Scripts\Player\Player.cs" />
     <Compile Include="Assets\Scripts\Bullets\Destory.cs" />
     <Compile Include="Assets\Scripts\Bullets\MissileCamera.cs" />
-    <Compile Include="Assets\Scripts\Bullets\BulletPool.cs" />
     <Compile Include="Assets\Scripts\Bullets\EnemyPool.cs" />
     <Compile Include="Assets\Scripts\Manager\InputManager.cs" />
     <Compile Include="Assets\Scripts\Enum\ManagedSceneIndex.cs" />
     <Compile Include="Assets\Scripts\Player\Spawn.cs" />
+    <Compile Include="Assets\Scripts\Enum\PoolObject.cs" />
     <Compile Include="Assets\Scripts\SceneObjects\TitleSceneObject.cs" />
     <Compile Include="Assets\Scripts\Bullets\Missile.cs" />
     <Compile Include="Assets\Scripts\Enemy\Enemy.cs" />

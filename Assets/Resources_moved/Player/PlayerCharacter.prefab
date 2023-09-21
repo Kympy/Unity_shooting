@@ -1100,7 +1100,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   FirePoint: {fileID: 6764461005528566761}
   muzzleFlash: {fileID: 6645177712657369362}
-  ShootPoint: {fileID: 2292098422314748907}
+  shootPoint: {fileID: 2292098422314748907}
   exhaustOutLet:
     left: {fileID: 7087103213167150930}
     right: {fileID: 7908562183426964385}
